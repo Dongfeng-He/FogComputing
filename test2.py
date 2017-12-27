@@ -22,7 +22,7 @@ def update_queuing_time(func):
 
 @update_queuing_time
 def add(x, y):
-      # host是redis主机，需要redis服务端和客户端都启动 redis默认端口是6379
+
     r.set('name',111)
     return 2
 
