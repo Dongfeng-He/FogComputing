@@ -17,16 +17,16 @@ class UDPBroadcaster:
 
 
 class UDPListener:
-    def __init__(self, lis_port = 21570, buffsize = 1024):
-        self.lis_port = lis_port
+    def __init__(self, my_port, buffsize = 1024):
+        self.my_port = my_port
         self.buffsize = buffsize
         self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.s.bind(("", self.lis_port))
+        self.s.bind(("", self.my_port))
 
     def listen(self):
         data, address = self.s.recvfrom(self.buffsize)
         self.s.close()
-        return (data, address)
+        return data, address
 
 
 

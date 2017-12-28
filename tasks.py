@@ -1,8 +1,8 @@
 from celery import Celery
 import time
 import redis
-import json
 from defer import DeferrableTask
+
 
 '''
 def update_queuing_time(func):
@@ -18,13 +18,10 @@ def update_queuing_time(func):
     return wrapper
 '''
 
-def update_queuing_time(start_time):
-    alpha = 0.1
+def update_queuing_time(start_time, task_type):
     end_time = time.time()
-    processing_time = end_time - start_time
-    queuing_time = float(r.get('queuing_time'))
-    new_queuing_time = queuing_time * (1 - alpha) + processing_time * alpha
-    r.set('queuing_time', new_queuing_time)
+    new_queuing_time = end_time - start_time
+    r.set(task_type, new_queuing_time)
 
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
@@ -36,16 +33,13 @@ app = Celery('tasks', broker = broker, backend = backend)
 
 @DeferrableTask
 @app.task
-def add(x, y):
+def add(x):
     start_time = time.time()
-    time.sleep(10)
-    update_queuing_time(start_time)
-    result = x + y
-    return json.dumps(result)
+    pow(3523523523,34232)
+    update_queuing_time(start_time, "add")
+    return "add result"
 
-@app.task
-def minus(x, y):
-    return x - y
+
 
 
 
