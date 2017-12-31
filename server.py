@@ -67,7 +67,10 @@ class FogServerProtocol(protocol.Protocol):
         elif message["message_type"] == "state":
             self.stateHandler(message)
         elif message["message_type"] == "fog_ready":
-            self.saveFogNeighbourConnection()
+            #self.factory.fog_neighbour_connection.append(self)
+            #print(self.factory.fog_neighbour_connection)
+            #self.saveFogNeighbourConnection()
+            pass
 
 
 
@@ -83,7 +86,7 @@ class FogServerFactory(protocol.ClientFactory):
         self.cloud_mode = cloud_mode
         self.sharing_interval = sharing_interval
         self.lc = task.LoopingCall(self.shareState)
-        self.lc.start(self.sharing_interval)
+        #self.lc.start(self.sharing_interval)
 
 
     def shareState(self):
@@ -96,19 +99,27 @@ class FogServerFactory(protocol.ClientFactory):
 
 
 class MulticastSeverProtocol(protocol.DatagramProtocol):
-    def __init__(self, tcp_port, group):
-        self.tcp_port = bytes(str(tcp_port), "ascii")
+    def __init__(self, tcp_port, fog_factory, group, multicast_port):
         self.group = group
+        self.fog_hello = fog_hello_message
+        self.fog_hello['tcp_port'] = tcp_port
+        self.multicast_port = multicast_port
+        self.fog_factory = fog_factory
+
 
     def startProtocol(self):
-        self.transport.setTTL(5) # Set the TTL>1 so multicast will cross router hops
+        self.transport.setTTL(100) # Set the TTL>1 so multicast will cross router hops
         self.transport.joinGroup(self.group)
+        self.transport.write(bytes(json.dumps(self.fog_hello), "ascii"), (self.group, self.multicast_port))
+
 
     def datagramReceived(self, data, addr):
         data = data.decode("ascii")
         message = json.loads(data)
         if message["message_type"] == "fog_hello":
-            self.transport.write(self.tcp_port, addr) # addr is destination address
+            fog_ip = addr[0]
+            tcp_port = message["tcp_port"]
+            reactor.connectTCP(fog_ip, tcp_port, self.fog_factory)
 
 
 def discoverNeighborFog(multicast_group, multicast_port, timeout = 2):
@@ -139,14 +150,15 @@ def main():
     multicast_group = "228.0.0.5"
     multicast_port = 8005
     fog_factory = FogServerFactory(r)
-
+    '''
     fogs = discoverNeighborFog(multicast_group, multicast_port)
     for fog in fogs:
         reactor.connectTCP(fog[0], fog[1], fog_factory)
-
+'''
     reactor.listenTCP(tcp_port, fog_factory)
-    reactor.listenMulticast(multicast_port, MulticastSeverProtocol(tcp_port, multicast_group), listenMultiple=True)
+    reactor.listenMulticast(multicast_port, MulticastSeverProtocol(tcp_port, fog_factory, multicast_group, multicast_port), listenMultiple=True)
     reactor.run()
+
 
 
 if __name__ == "__main__":

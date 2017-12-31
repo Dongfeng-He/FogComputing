@@ -14,7 +14,7 @@ task_message = {'message_type':'task', 'task_type': None, 'task_name': None, 'co
 
 state_message = {'message_type':'state', 'task_time':None, 'client':None}
 
-fog_hello_message = {'message_type':'fog_hello'}
+fog_hello_message = {'message_type':'fog_hello', 'tcp_port':None}
 
 fog_ready_message = {'message_type':'fog_ready'}
 
