@@ -97,7 +97,6 @@ class FogServerFactory(protocol.ClientFactory):
 
 
 
-
 class MulticastSeverProtocol(protocol.DatagramProtocol):
     def __init__(self, tcp_port, fog_factory, group, multicast_port):
         self.group = group
@@ -122,25 +121,6 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
             reactor.connectTCP(fog_ip, tcp_port, self.fog_factory)
 
 
-def discoverNeighborFog(multicast_group, multicast_port, timeout = 2):
-    fogs = []
-    my_port = find_idle_port()
-    fog_hello = fog_hello_message
-    fog_hello = json.dumps(fog_hello)
-    broadcaster = UDPMulticaster(multicast_group = multicast_group, multicast_port=multicast_port, my_port=my_port)
-    broadcaster.send(fog_hello)
-    listener = UDPListener(my_port=my_port, timeout = timeout)  # listener can only be created after broadcaster releases the port
-    while True:
-        try:
-            data, address = listener.listen()
-            host = address[0]
-            port = int(data)
-            fogs.append((host, port))
-        except socket.timeout:
-            listener.close()
-            break
-    return fogs
-
 
 def main():
     r = redis.Redis(host='localhost', port=6379, decode_responses=True)
@@ -150,11 +130,6 @@ def main():
     multicast_group = "228.0.0.5"
     multicast_port = 8005
     fog_factory = FogServerFactory(r)
-    '''
-    fogs = discoverNeighborFog(multicast_group, multicast_port)
-    for fog in fogs:
-        reactor.connectTCP(fog[0], fog[1], fog_factory)
-'''
     reactor.listenTCP(tcp_port, fog_factory)
     reactor.listenMulticast(multicast_port, MulticastSeverProtocol(tcp_port, fog_factory, multicast_group, multicast_port), listenMultiple=True)
     reactor.run()
