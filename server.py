@@ -51,11 +51,15 @@ class FogServerProtocol(protocol.Protocol):
             self.taskProcessing(task_message)
 
     def stateHandler(self, state_message):
-        state_message["client"] = self
-        self.factory
+        self.factory.state_table[self] = state_message["task_time"]
+        print(self.factory.state_table)
 
     def saveFogNeighbourConnection(self):
         self.factory.fog_neighbour_connection.append(self)
+        print(self.factory.fog_neighbour_connection)
+
+    def deleteFogNeighbourConnection(self):
+        self.factory.fog_neighbour_connection.remove(self)
         print(self.factory.fog_neighbour_connection)
 
 
@@ -67,10 +71,14 @@ class FogServerProtocol(protocol.Protocol):
         elif message["message_type"] == "state":
             self.stateHandler(message)
         elif message["message_type"] == "fog_ready":
-            #self.factory.fog_neighbour_connection.append(self)
-            #print(self.factory.fog_neighbour_connection)
-            #self.saveFogNeighbourConnection()
-            pass
+            self.saveFogNeighbourConnection()
+
+
+    def connectionLost(self, reason):
+        print("Disconnected from", self.transport.getPeer())
+        self.deleteFogNeighbourConnection()
+
+
 
 
 
@@ -78,22 +86,26 @@ class FogServerProtocol(protocol.Protocol):
 class FogServerFactory(protocol.ClientFactory):
     protocol = FogServerProtocol
 
-    def __init__(self, r, offloading_mode = True, cloud_mode = True, sharing_interval = 1):
+    def __init__(self, r, offloading_mode = True, cloud_mode = True, sharing_interval = 5):
         self.fog_neighbour_connection = []
-        self.state_table = []
+        self.state_table = {}
         self.r = r
         self.offloading_mode = offloading_mode
         self.cloud_mode = cloud_mode
         self.sharing_interval = sharing_interval
         self.lc = task.LoopingCall(self.shareState)
-        #self.lc.start(self.sharing_interval)
+        self.lc.start(self.sharing_interval)
 
 
     def shareState(self):
         task_time = getTaskTime()
-        state_message["task_time"] = task_time
-        if not self.fogs:
-            pass
+        state_sharing_message = state_message
+        state_sharing_message["task_time"] = task_time
+        state_sharing_message = bytes(json.dumps(state_sharing_message), "ascii")
+        if self.fog_neighbour_connection:
+            for fog in self.fog_neighbour_connection:
+                fog.transport.write(state_sharing_message)
+
 
 
 
@@ -107,7 +119,7 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
 
 
     def startProtocol(self):
-        self.transport.setTTL(100) # Set the TTL>1 so multicast will cross router hops
+        self.transport.setTTL(5) # Set the TTL>1 so multicast will cross router hops
         self.transport.joinGroup(self.group)
         self.transport.write(bytes(json.dumps(self.fog_hello), "ascii"), (self.group, self.multicast_port))
 

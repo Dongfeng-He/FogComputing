@@ -12,7 +12,7 @@ class TaskMessage:
 task_message = {'message_type':'task', 'task_type': None, 'task_name': None, 'content': None, \
                 'cloud_processing': False, 'offload_times': 0, 'max_offload': 4, 'time_requirement': 10000}
 
-state_message = {'message_type':'state', 'task_time':None, 'client':None}
+state_message = {'message_type':'state', 'task_time':None}
 
 fog_hello_message = {'message_type':'fog_hello', 'tcp_port':None}
 
