@@ -14,12 +14,46 @@ class FogServerProtocol(protocol.Protocol):
         self.transport.write(fog_ready)
 
     def taskInspection(self, task_message):
+        '''
         print("task time:", self.factory.r.get(task_message["task_name"]))
         if self.factory.cloud_mode and task_message["cloud_processing"] == True or task_message["offload_times"] >= task_message["max_offload"]:
             operation = "cloud"
         elif self.factory.offloading_mode and task_message["time_requirement"] <= float(self.factory.r.get(task_message["task_name"])):
             operation = "fog"
         else:
+            operation = "accept"
+
+        if (self.factory.cloud_mode == False and \
+            self.factory.offloading_mode == False) or True:pass
+            '''
+        estimated_task_time = float(self.factory.r.get(task_message["task_name"]))
+        if self.factory.cloud_mode == True and self.factory.fog_mode == True:
+            if task_message["cloud_processing"] == True:
+                operation = "cloud"
+            else:
+                if estimated_task_time <= task_message["time_requirement"] or \
+                        (task_message["offload_times"] >= task_message["max_offload"] and task_message["task_type"] != "heavy") or \
+                        (estimated_task_time <= self.factory.findIdleFog(task_message["task_name"])[1] and task_message["task_type"] != "heavy"):
+                    operation = "accept"
+                elif (task_message["offload_times"] >= task_message["max_offload"] and task_message["task_type"] == "heavy") or \
+                        (estimated_task_time <= self.factory.findIdleFog(task_message["task_name"])[1] and task_message["task_type"] == "heavy"):
+                    operation = "cloud"
+                else:
+                    operation = "fog"
+        elif self.factory.cloud_mode == False and self.factory.fog_mode == True:
+            if estimated_task_time <= task_message["time_requirement"] or \
+                    task_message["offload_times"] >= task_message["max_offload"] or \
+                    estimated_task_time <= self.factory.findIdleFog(task_message["task_name"])[1]:
+                operation = "accept"
+            else:
+                operation = "fog"
+        elif self.factory.cloud_mode == True and self.factory.fog_mode == False:
+            if task_message["cloud_processing"] == True or \
+                    (estimated_task_time >= task_message["time_requirement"] and task_message['task_type'] == "heavy"):
+                operation = "cloud"
+            else:
+                operation = "accept"
+        elif self.factory.cloud_mode == False and self.factory.fog_mode == False:
             operation = "accept"
 
         return operation
@@ -86,11 +120,11 @@ class FogServerProtocol(protocol.Protocol):
 class FogServerFactory(protocol.ClientFactory):
     protocol = FogServerProtocol
 
-    def __init__(self, r, offloading_mode = True, cloud_mode = True, sharing_interval = 5):
+    def __init__(self, r, fog_mode = True, cloud_mode = True, sharing_interval = 5):
         self.fog_neighbour_connection = []
         self.state_table = {}
         self.r = r
-        self.offloading_mode = offloading_mode
+        self.fog_mode = fog_mode
         self.cloud_mode = cloud_mode
         self.sharing_interval = sharing_interval
         self.lc = task.LoopingCall(self.shareState)
@@ -105,6 +139,11 @@ class FogServerFactory(protocol.ClientFactory):
         if self.fog_neighbour_connection:
             for fog in self.fog_neighbour_connection:
                 fog.transport.write(state_sharing_message)
+
+    def findIdleFog(self, task_name):
+        fog_connection, all_task_time = min(self.state_table.items(), key=lambda x: x[1][task_name])
+        task_time = all_task_time[task_name]
+        return fog_connection, task_time
 
 
 
