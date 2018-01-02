@@ -2,6 +2,7 @@ from celery import Celery
 import time
 import redis
 from defer import DeferrableTask
+from message import result_message
 
 '''
 def update_queuing_time(func):
@@ -48,11 +49,14 @@ all_task_name = ["add"]
 
 @DeferrableTask
 @app.task
-def add(x):
+def add(content, task_id):
+    result = result_message
+    result["task_id"] = task_id
     start_time = time.time()
-    pow(3523523523,34232)
+    result["content"] = pow(3523523523,34232)
     update_queuing_time(start_time, "add")
-    return "add result"
+
+    return result
 
 
 

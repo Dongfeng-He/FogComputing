@@ -1,5 +1,4 @@
 from twisted.internet import reactor, protocol
-from communication import UDPBroadcaster, UDPListener
 from functions import csvReader
 from message import task_message
 import json
@@ -12,15 +11,16 @@ class ClientProtocol(protocol.Protocol):
         print("Connected to fog server:", self._peer)
 
     def dataReceived(self, data):
-        if data == b'clear!':
-            print("Start to transmit task...")
+        data = data.decode("ascii")
+        message = json.loads(data)
+        if message["message_type"] == "fog_ready":
             self.transport.write(self.factory.task_message)
-        else:
-            print("Result is: ", data)
+        elif message["message_type"] == "result":
+            print("Result is: ", message["content"])
             self.transport.write(self.factory.task_message)
 
     def connectionLost(self, reason):
-        pass
+        print("Disconnected from", self.transport.getPeer())
 
 
 class ClientFactory(protocol.ClientFactory):

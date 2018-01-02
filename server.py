@@ -1,10 +1,10 @@
 from twisted.internet import reactor, protocol, task
 import json
 import redis
-from tasks import add, all_task_name, setTaskTime, getTaskTime
+from tasks import add, setTaskTime, getTaskTime
 from message import state_message, fog_hello_message, fog_ready_message
-from communication import UDPListener, UDPMulticaster, find_idle_port
-import socket
+from communication import find_idle_port
+
 
 class FogServerProtocol(protocol.Protocol):
     def connectionMade(self):
@@ -60,7 +60,11 @@ class FogServerProtocol(protocol.Protocol):
 
     #TODO: 1.maintain a table of other servers; 2.periodic share task time with other fog servers
     def taskOffloading(self, task_message):
+        fog = self.factory.findIdleFog(task_message["task_name"])[0]
         task_message["offload_times"] += 1
+        fog.transport.write(bytes(json.dumps(task_message), "ascii"))
+        task_id = task_message["task_id"]
+        self.factory.send_back_table[task_id] = self
 
 
     def taskProcessing(self, task_message):
@@ -71,18 +75,27 @@ class FogServerProtocol(protocol.Protocol):
             self.transport.write(bytes(json.dumps(result), "ascii"))
 
         if task_message["task_name"] == "add":
-            d = add.delay(task_message["content"])
+            d = add.delay(task_message["content"], task_message["task_id"])
             d.addCallback(respond)
             d.addErrback(onError)
 
     def taskHandler(self, task_message):
+        if task_message["offload_times"] == 0:
+            task_message["task_id"] = self.factory.next_task_id
+            self.factory.next_task_id += 1
+
         operation = self.taskInspection(task_message)
         if operation == "cloud":
             pass
         elif operation == "fog":
-            pass
+            self.taskOffloading(task_message)
         elif operation == "accept":
             self.taskProcessing(task_message)
+
+    def resultHandler(self, result_message):
+        task_id = result_message["task_id"]
+        connection = self.factory.send_back_table[task_id]
+        connection.transport.write(bytes(json.dumps(result_message), "ascii"))
 
     def stateHandler(self, state_message):
         self.factory.state_table[self] = state_message["task_time"]
@@ -102,6 +115,8 @@ class FogServerProtocol(protocol.Protocol):
         message = json.loads(data)
         if message["message_type"] == "task":
             self.taskHandler(message)
+        elif message["message_type"] == "result":
+            pass
         elif message["message_type"] == "state":
             self.stateHandler(message)
         elif message["message_type"] == "fog_ready":
@@ -113,17 +128,15 @@ class FogServerProtocol(protocol.Protocol):
         self.deleteFogNeighbourConnection()
 
 
-
-
-
-
 class FogServerFactory(protocol.ClientFactory):
     protocol = FogServerProtocol
 
-    def __init__(self, r, fog_mode = True, cloud_mode = True, sharing_interval = 5):
+    def __init__(self, r, task_id_root, fog_mode = True, cloud_mode = True, sharing_interval = 5):
         self.fog_neighbour_connection = []
         self.state_table = {}
+        self.send_back_table = {}
         self.r = r
+        self.next_task_id = task_id_root
         self.fog_mode = fog_mode
         self.cloud_mode = cloud_mode
         self.sharing_interval = sharing_interval
@@ -180,7 +193,8 @@ def main():
     tcp_port = find_idle_port()
     multicast_group = "228.0.0.5"
     multicast_port = 8005
-    fog_factory = FogServerFactory(r)
+    task_id_root = 10000
+    fog_factory = FogServerFactory(r, task_id_root)
     reactor.listenTCP(tcp_port, fog_factory)
     reactor.listenMulticast(multicast_port, MulticastSeverProtocol(tcp_port, fog_factory, multicast_group, multicast_port), listenMultiple=True)
     reactor.run()
