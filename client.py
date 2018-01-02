@@ -1,6 +1,6 @@
 from twisted.internet import reactor, protocol
 from functions import csvReader
-from message import task_message
+from message import task_message, endpoint_hello_message
 import json
 
 
@@ -43,25 +43,37 @@ class ClientFactory(protocol.ClientFactory):
         reactor.stop()
 
 
+class MulticastClientProtocol(protocol.DatagramProtocol):
+    def __init__(self, endpoint_factory, group, multicast_port, client_num):
+        self.endpoint_factory = endpoint_factory
+        self.group = group
+        self.multicast_port = multicast_port
+        self.client_num = client_num
 
-def fogDiscovery():
-    des_port = 10000
-    my_port = 33235
-    broadcaster = UDPBroadcaster(des_port=des_port, my_port=my_port)
-    broadcaster.send("FogDiscovery")
-    listener = UDPListener(my_port=my_port)  # listener can only be created after broadcaster releases the port
-    data, address = listener.listen()
-    listener.close()
-    host = address[0]
-    port = int(data.decode("ascii"))
-    return host, port
+    def startProtocol(self):
+        endpoint_hello = endpoint_hello_message
+        self.transport.joinGroup(self.group)
+        self.transport.write(bytes(json.dumps(endpoint_hello), "ascii"), (self.group, self.multicast_port))
+
+    def datagramReceived(self, data, addr):
+        data = data.decode("ascii")
+        message = json.loads(data)
+        if message["message_type"] == "fog_ack":
+            fog_ip = addr[0]
+            tcp_port = message["tcp_port"]
+            for i in range(self.client_num):
+                reactor.connectTCP(fog_ip, tcp_port, self.endpoint_factory)
+            self.transport.loseConnection()
 
 
 
 def main():
-    host, port = fogDiscovery()
-    for i in range(10):
-        reactor.connectTCP(host, port, ClientFactory())
+    #endpoint_factory = ClientFactory()
+    multicast_group = "228.0.0.5"
+    multicast_port = 8005
+    client_num = 1
+    multicast_client_protocol = MulticastClientProtocol(ClientFactory(), multicast_group, multicast_port, client_num)
+    reactor.listenMulticast(multicast_port, multicast_client_protocol, listenMultiple=True)
     reactor.run()
 
 if __name__ == "__main__":

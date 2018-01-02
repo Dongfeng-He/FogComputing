@@ -18,6 +18,10 @@ state_message = {'message_type':'state', 'task_time':None}
 
 fog_hello_message = {'message_type':'fog_hello', 'tcp_port':None}
 
+endpoint_hello_message = {'message_type':'endpoint_hello'}
+
+fog_ack_message = {'message_type':'fog_ack', 'tcp_port':None}
+
 fog_ready_message = {'message_type':'fog_ready'}
 
 class FogDiscoveryMessage:

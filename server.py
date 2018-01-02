@@ -2,7 +2,7 @@ from twisted.internet import reactor, protocol, task
 import json
 import redis
 from tasks import add, setTaskTime, getTaskTime
-from message import state_message, fog_hello_message, fog_ready_message
+from message import state_message, fog_hello_message, fog_ready_message, fog_ack_message
 from communication import find_idle_port
 
 
@@ -166,6 +166,8 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
         self.group = group
         self.fog_hello = fog_hello_message
         self.fog_hello['tcp_port'] = tcp_port
+        self.fog_ack = fog_ack_message
+        self.fog_ack['tcp_port'] = tcp_port
         self.multicast_port = multicast_port
         self.fog_factory = fog_factory
 
@@ -179,10 +181,16 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
     def datagramReceived(self, data, addr):
         data = data.decode("ascii")
         message = json.loads(data)
+        print(data)
         if message["message_type"] == "fog_hello":
             fog_ip = addr[0]
             tcp_port = message["tcp_port"]
             reactor.connectTCP(fog_ip, tcp_port, self.fog_factory)
+        elif message["message_type"] == "endpoint_hello":
+            self.transport.write(bytes(json.dumps(self.fog_ack), "ascii"), (self.group, self.multicast_port))
+
+
+
 
 
 
@@ -195,8 +203,9 @@ def main():
     multicast_port = 8005
     task_id_root = 10000
     fog_factory = FogServerFactory(r, task_id_root)
+    multicast_server_protocol = MulticastSeverProtocol(tcp_port, fog_factory, multicast_group, multicast_port)
     reactor.listenTCP(tcp_port, fog_factory)
-    reactor.listenMulticast(multicast_port, MulticastSeverProtocol(tcp_port, fog_factory, multicast_group, multicast_port), listenMultiple=True)
+    reactor.listenMulticast(multicast_port, multicast_server_protocol, listenMultiple=True)
     reactor.run()
 
 
