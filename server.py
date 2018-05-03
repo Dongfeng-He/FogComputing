@@ -69,14 +69,14 @@ class FogServerProtocol(protocol.Protocol):
         port = self.transport.getHost().port
         task_message["offloading_fog"].append((host,port))
         fog.transport.write(bytes(json.dumps(task_message), "ascii"))
-        b = self.factory.state_table.keys()
-        for c in b:
-            c1 = c.transport.getHost()
-            c2 = c.transport.getPeer()
-        a = self.transport.getHost()
+        #b = self.factory.state_table.keys()
+        #for c in b:
+        #    c1 = c.transport.getHost()
+        #    c2 = c.transport.getPeer()
+        #a = self.transport.getHost()
 
 
-
+#
 
 
     def taskProcessing(self, task_message):
