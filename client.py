@@ -21,7 +21,7 @@ class ClientProtocol(protocol.Protocol):
         original_task_message['task_type'] = 'light'
         original_task_message['task_name'] = "add"
         original_task_message['time_requirement'] = 0.05
-        original_task_message['content'] = csvReader("wind.csv")
+        original_task_message['content'] = 1
         sending_message = bytes(json.dumps(original_task_message), "ascii")
 
         if message["message_type"] == "fog_ready":

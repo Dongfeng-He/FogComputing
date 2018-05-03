@@ -204,7 +204,7 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
         if message["message_type"] == "fog_hello":
             fog_ip = addr[0]
             tcp_port = message["tcp_port"]
-            if tcp_port != self.tcp_port:
+            if tcp_port != self.tcp_port and fog_ip != self.transport.getHost().host:
                 reactor.connectTCP(fog_ip, tcp_port, self.fog_factory)
         elif message["message_type"] == "endpoint_hello":
             self.transport.write(bytes(json.dumps(self.fog_ack), "ascii"), (self.group, self.multicast_port))
