@@ -127,6 +127,7 @@ class FogServerProtocol(protocol.Protocol):
         data = data.decode("ascii")
         message = json.loads(data)
         print(message)
+        print(self.transport.getHost().host)
         if message["message_type"] == "task":
             self.factory.current_connection = self
             self.taskHandler(message)
