@@ -1,1 +1,0 @@
-# search in a DataBase(SQL) to authenticate fogs

@@ -35,10 +35,10 @@ def getTaskTime():
 
     return all_task_time
 
-r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+r = redis.Redis(host='localhost', port=6381, decode_responses=True)
 
-broker = 'redis://127.0.0.1:6379/5'
-backend = 'redis://127.0.0.1:6379/6'
+broker = 'redis://127.0.0.1:6381/5'
+backend = 'redis://127.0.0.1:6381/6'
 
 app = Celery('tasks', broker = broker, backend = backend)
 

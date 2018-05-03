@@ -67,7 +67,7 @@ class FogServerProtocol(protocol.Protocol):
         task_message["offload_times"] += 1
         host = self.transport.getHost().host
         port = self.transport.getHost().port
-        task_message["offloading_fog"].append((host,port))
+        task_message["offloading_fog"].append((host, port))
         fog.transport.write(bytes(json.dumps(task_message), "ascii"))
         b = self.factory.state_table.keys()
         for c in b:
@@ -128,7 +128,6 @@ class FogServerProtocol(protocol.Protocol):
         message = json.loads(data)
         print(message)
         if message["message_type"] == "task":
-            self.factory.current_connection = self
             self.taskHandler(message)
         elif message["message_type"] == "result":
             self.resultHandler(message)
@@ -213,13 +212,13 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
 
 
 def main():
-    r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+    r = redis.Redis(host='localhost', port=6380, decode_responses=True)
     setTaskTime()
     #TODO:  2. discvoery fogs 3. connect to fogs and store the connections in factory
     tcp_port = find_idle_port()
     multicast_group = "228.0.0.5"
     multicast_port = 8005
-    task_id_root = 10000
+    task_id_root = 20000
     fog_factory = FogServerFactory(r, task_id_root)
     multicast_server_protocol = MulticastSeverProtocol(tcp_port, fog_factory, multicast_group, multicast_port)
     reactor.listenTCP(tcp_port, fog_factory)

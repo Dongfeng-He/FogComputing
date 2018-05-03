@@ -4,19 +4,6 @@ import redis
 from defer import DeferrableTask
 from message import result_message
 
-'''
-def update_queuing_time(func):
-    alpha = 0.1
-    def wrapper(*args):
-        start_time = time.time()
-        func(*args)
-        end_time = time.time()
-        processing_time = end_time - start_time
-        queuing_time = float(r.get('queuing_time'))
-        new_queuing_time = queuing_time * (1 - alpha) + processing_time * alpha
-        r.set('queuing_time', new_queuing_time)
-    return wrapper
-'''
 
 def update_queuing_time(start_time, task_type):
     end_time = time.time()
@@ -35,10 +22,10 @@ def getTaskTime():
 
     return all_task_time
 
-r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+r = redis.Redis(host='localhost', port=6380, decode_responses=True)
 
-broker = 'redis://127.0.0.1:6379/5'
-backend = 'redis://127.0.0.1:6379/6'
+broker = 'redis://127.0.0.1:6380/5'
+backend = 'redis://127.0.0.1:6380/6'
 
 app = Celery('tasks', broker = broker, backend = backend)
 
