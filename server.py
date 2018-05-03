@@ -4,7 +4,7 @@ import redis
 from tasks import add, setTaskTime, getTaskTime
 from message import state_message, fog_hello_message, fog_ready_message, fog_ack_message
 from communication import find_idle_port
-
+import socket
 
 class FogServerProtocol(protocol.Protocol):
     def connectionMade(self):
@@ -189,7 +189,8 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
         self.fog_ack['tcp_port'] = tcp_port
         self.multicast_port = multicast_port
         self.fog_factory = fog_factory
-
+        myname = socket.getfqdn(socket.gethostname())
+        self.ip = socket.gethostbyname(myname)
 
     def startProtocol(self):
         self.transport.setTTL(5) # Set the TTL>1 so multicast will cross router hops
@@ -204,7 +205,7 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
         if message["message_type"] == "fog_hello":
             fog_ip = addr[0]
             tcp_port = message["tcp_port"]
-            if tcp_port != self.tcp_port or fog_ip != self.transport.getHost().host:
+            if tcp_port != self.tcp_port or fog_ip != self.ip:
                 reactor.connectTCP(fog_ip, tcp_port, self.fog_factory)
         elif message["message_type"] == "endpoint_hello":
             self.transport.write(bytes(json.dumps(self.fog_ack), "ascii"), (self.group, self.multicast_port))
