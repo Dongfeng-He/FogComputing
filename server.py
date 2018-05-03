@@ -207,13 +207,22 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
             fog_ip = addr[0]
             tcp_port = message["tcp_port"]
             #if tcp_port != self.tcp_port or fog_ip != self.ip:
-            self.ip = self.transport.getHost().host
+            self.ip = self.get_host_ip()
             print(self.ip)
             if fog_ip != self.ip:
                 reactor.connectTCP(fog_ip, tcp_port, self.fog_factory)
         elif message["message_type"] == "endpoint_hello":
             self.transport.write(bytes(json.dumps(self.fog_ack), "ascii"), (self.group, self.multicast_port))
 
+    def get_host_ip(self):
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(('8.8.8.8', 80))
+            ip = s.getsockname()[0]
+        finally:
+            s.close()
+
+        return ip
 
 
 
