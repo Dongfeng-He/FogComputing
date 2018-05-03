@@ -206,7 +206,7 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
             fog_ip = addr[0]
             tcp_port = message["tcp_port"]
             #if tcp_port != self.tcp_port or fog_ip != self.ip:
-
+            self.ip = protocol.Protocol.transport.getHost().host
             if fog_ip != self.ip:
                 reactor.connectTCP(fog_ip, tcp_port, self.fog_factory)
         elif message["message_type"] == "endpoint_hello":

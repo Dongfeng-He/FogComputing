@@ -17,8 +17,8 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="221" column="0" lean-forward="true" selection-start-line="221" selection-start-column="0" selection-end-line="221" selection-end-column="0" />
+            <state relative-caret-position="93">
+              <caret line="208" column="22" lean-forward="false" selection-start-line="208" selection-start-column="22" selection-end-line="208" selection-end-column="22" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -783,7 +783,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525355508546</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="endpoint fogDiscovery --&gt; multicastClient">
+      <created>1525355687761</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1525355687761</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1286,8 +1293,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="221" column="0" lean-forward="true" selection-start-line="221" selection-start-column="0" selection-end-line="221" selection-end-column="0" />
+        <state relative-caret-position="93">
+          <caret line="208" column="22" lean-forward="false" selection-start-line="208" selection-start-column="22" selection-end-line="208" selection-end-column="22" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>
