@@ -190,8 +190,7 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
         self.fog_ack['tcp_port'] = tcp_port
         self.multicast_port = multicast_port
         self.fog_factory = fog_factory
-        myname = socket.getfqdn(socket.gethostname())
-        self.ip = socket.gethostbyname(myname)
+        self.ip = self.get_host_ip()
 
     def startProtocol(self):
         self.transport.setTTL(5) # Set the TTL>1 so multicast will cross router hops
@@ -202,14 +201,11 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
     def datagramReceived(self, data, addr):
         data = data.decode("ascii")
         message = json.loads(data)
-        print(data)
         if message["message_type"] == "fog_hello":
             fog_ip = addr[0]
             tcp_port = message["tcp_port"]
-            #if tcp_port != self.tcp_port or fog_ip != self.ip:
-            self.ip = self.get_host_ip()
-            print(self.ip)
-            if fog_ip != self.ip:
+            if tcp_port != self.tcp_port and fog_ip != self.ip:
+            #if fog_ip != self.ip:
                 reactor.connectTCP(fog_ip, tcp_port, self.fog_factory)
         elif message["message_type"] == "endpoint_hello":
             self.transport.write(bytes(json.dumps(self.fog_ack), "ascii"), (self.group, self.multicast_port))
@@ -221,16 +217,11 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
             ip = s.getsockname()[0]
         finally:
             s.close()
-
         return ip
 
 
 
 def main():
-    myname = socket.getfqdn(socket.gethostname())
-    ip = socket.gethostbyname(myname)
-    print(ip)
-
     r = redis.Redis(host='localhost', port=6379, decode_responses=True)
     setTaskTime()
     #TODO:  2. discvoery fogs 3. connect to fogs and store the connections in factory
