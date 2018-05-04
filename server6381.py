@@ -4,7 +4,7 @@ import redis
 from tasks import add, setTaskTime, getTaskTime
 from message import state_message, fog_hello_message, fog_ready_message, fog_ack_message
 from communication import find_idle_port
-
+import socket
 
 class FogServerProtocol(protocol.Protocol):
     def connectionMade(self):
@@ -26,7 +26,10 @@ class FogServerProtocol(protocol.Protocol):
         if (self.factory.cloud_mode == False and \
             self.factory.offloading_mode == False) or True:pass
             '''
+        if len(task_message["offloading_fog"]) != 0:
+            print(1)
         estimated_task_time = float(self.factory.r.get(task_message["task_name"]))
+        idle_fog_task_time = self.factory.findIdleFog(task_message["task_name"], task_message["offloading_fog"])[1]
         print(estimated_task_time)
         if self.factory.cloud_mode == True and self.factory.fog_mode == True:
             if task_message["cloud_processing"] == True:
@@ -34,17 +37,17 @@ class FogServerProtocol(protocol.Protocol):
             else:
                 if estimated_task_time <= task_message["time_requirement"] or \
                         (task_message["offload_times"] >= task_message["max_offload"] and task_message["task_type"] != "heavy") or \
-                        (estimated_task_time <= self.factory.findIdleFog(task_message["task_name"])[1] and task_message["task_type"] != "heavy"):
+                        (estimated_task_time <= idle_fog_task_time and task_message["task_type"] != "heavy"):
                     operation = "accept"
                 elif (task_message["offload_times"] >= task_message["max_offload"] and task_message["task_type"] == "heavy") or \
-                        (estimated_task_time <= self.factory.findIdleFog(task_message["task_name"])[1] and task_message["task_type"] == "heavy"):
+                        (estimated_task_time <= idle_fog_task_time and task_message["task_type"] == "heavy"):
                     operation = "cloud"
                 else:
                     operation = "fog"
         elif self.factory.cloud_mode == False and self.factory.fog_mode == True:
             if estimated_task_time <= task_message["time_requirement"] or \
                     task_message["offload_times"] >= task_message["max_offload"] or \
-                    estimated_task_time <= self.factory.findIdleFog(task_message["task_name"])[1]:
+                    estimated_task_time <= idle_fog_task_time:
                 operation = "accept"
             else:
                 operation = "fog"
@@ -66,17 +69,17 @@ class FogServerProtocol(protocol.Protocol):
         fog = self.factory.findIdleFog(task_message["task_name"])[0]
         task_message["offload_times"] += 1
         host = self.transport.getHost().host
-        port = self.transport.getHost().port
-        task_message["offloading_fog"].append((host, port))
+        #port = self.transport.getHost().port
+        task_message["offloading_fog"].append(host)
         fog.transport.write(bytes(json.dumps(task_message), "ascii"))
-        b = self.factory.state_table.keys()
-        for c in b:
-            c1 = c.transport.getHost()
-            c2 = c.transport.getPeer()
-        a = self.transport.getHost()
+        #b = self.factory.state_table.keys()
+        #for c in b:
+        #    c1 = c.transport.getHost()
+        #    c2 = c.transport.getPeer()
+        #a = self.transport.getHost()
 
 
-
+#
 
 
     def taskProcessing(self, task_message):
@@ -150,6 +153,7 @@ class FogServerFactory(protocol.ClientFactory):
         self.fog_neighbour_connection = []
         self.current_connection = None
         self.state_table = {}
+        self.state_table_without_offloaded_fog = {}
         self.send_back_table = {}
         self.r = r
         self.next_task_id = task_id_root
@@ -169,10 +173,19 @@ class FogServerFactory(protocol.ClientFactory):
             for fog in self.fog_neighbour_connection:
                 fog.transport.write(state_sharing_message)
 
-    def findIdleFog(self, task_name):
+    def findIdleFog(self, task_name, offloaded_fog_ip = []):
+        self.state_table_without_offloaded_fog = self.state_table.copy()
         if len(self.state_table):
-            fog_connection, all_task_time = min(self.state_table.items(), key=lambda x: x[1][task_name])
-            task_time = all_task_time[task_name]
+            if len(offloaded_fog_ip) != 0:
+                for fog_connection in self.state_table.keys():
+                    if fog_connection.transport.getPeer().host in offloaded_fog_ip:
+                        del self.state_table_without_offloaded_fog[fog_connection]
+            if len(self.state_table_without_offloaded_fog) == 0:
+                fog_connection, task_time = None, 1000000
+            else:
+                fog_connection, all_task_time = min(self.state_table_without_offloaded_fog.items(),
+                                                    key=lambda x: x[1][task_name])
+                task_time = all_task_time[task_name]
         else:
             fog_connection, task_time = None, 1000000
         return fog_connection, task_time
@@ -180,6 +193,7 @@ class FogServerFactory(protocol.ClientFactory):
 
 
 class MulticastSeverProtocol(protocol.DatagramProtocol):
+
     def __init__(self, tcp_port, fog_factory, group, multicast_port):
         self.group = group
         self.tcp_port = tcp_port
@@ -189,7 +203,7 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
         self.fog_ack['tcp_port'] = tcp_port
         self.multicast_port = multicast_port
         self.fog_factory = fog_factory
-
+        self.ip = self.get_host_ip()
 
     def startProtocol(self):
         self.transport.setTTL(5) # Set the TTL>1 so multicast will cross router hops
@@ -200,15 +214,24 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
     def datagramReceived(self, data, addr):
         data = data.decode("ascii")
         message = json.loads(data)
-        print(data)
+        print(message)
         if message["message_type"] == "fog_hello":
             fog_ip = addr[0]
             tcp_port = message["tcp_port"]
-            if tcp_port != self.tcp_port:
+            # if fog_ip != self.ip:
+            if tcp_port != self.tcp_port or fog_ip != self.ip:
                 reactor.connectTCP(fog_ip, tcp_port, self.fog_factory)
         elif message["message_type"] == "endpoint_hello":
             self.transport.write(bytes(json.dumps(self.fog_ack), "ascii"), (self.group, self.multicast_port))
 
+    def get_host_ip(self):
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(('8.8.8.8', 80))
+            ip = s.getsockname()[0]
+        finally:
+            s.close()
+        return ip
 
 
 

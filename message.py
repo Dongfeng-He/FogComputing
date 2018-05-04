@@ -10,7 +10,7 @@ class TaskMessage:
 
 
 task_message = {'message_type':'task', 'task_id':None, 'task_type': None, 'task_name': None, 'content': None, \
-                'cloud_processing': False, 'offload_times': 0, 'offloading_fog': None, 'max_offload': 4, 'time_requirement': 10000}
+                'cloud_processing': False, 'offload_times': 0, 'offloading_fog':[], 'max_offload': 4, 'time_requirement': 10000}
 
 result_message = {'message_type':'result', 'task_id':None, 'content':None}
 
