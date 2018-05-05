@@ -26,9 +26,14 @@ def update_queuing_time(start_time, task_type):
     print(new_queuing_time)
     r.set(task_type, new_queuing_time)
 
-def setTaskTime():
+def resetTaskTime():
     for task_name in all_task_name:
         r.set(task_name, 0)
+
+def resetQueueState():
+    r.set('light_task_num', 0)
+    r.set('medium_task_num', 0)
+    r.set('heavy_task_num', 0)
 
 def getAllTaskTime():
     all_task_time = {}
@@ -71,6 +76,7 @@ all_task_name = ["add"]
 @app.task
 def add(content, task_id):
     light_task_num = r.get('light_task_num')
+    print(light_task_num)
     if light_task_num == None:
         r.set('light_task_num', 1)
     else:

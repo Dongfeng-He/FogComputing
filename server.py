@@ -1,7 +1,7 @@
 from twisted.internet import reactor, protocol, task
 import json
 import redis
-from tasks import add, setTaskTime, getAllTaskTime, taskInQueue
+from tasks import add, resetTaskTime, resetQueueState, getAllTaskTime, taskInQueue
 from message import state_message, fog_hello_message, fog_ready_message, fog_ack_message
 from communication import find_idle_port
 import socket
@@ -27,11 +27,8 @@ class FogServerProtocol(protocol.Protocol):
         if (self.factory.cloud_mode == False and \
             self.factory.offloading_mode == False) or True:pass
             '''
-        if len(task_message["offloading_fog"]) != 0:
-            print(1)
+
         estimated_task_time = float(self.factory.r.get(task_message["task_name"]))
-        if estimated_task_time == self.factory.previous_task_time and taskInQueue() == 0:
-            setTaskTime()
         idle_fog_task_time = self.factory.findIdleFog(task_message["task_name"], task_message["offloading_fog"])[1]
         print(estimated_task_time)
         if self.factory.cloud_mode == True and self.factory.fog_mode == True:
@@ -172,6 +169,9 @@ class FogServerFactory(protocol.ClientFactory):
 
 
     def shareState(self):
+        total_num, light_num, medium_num, heavy_num = taskInQueue()
+        if total_num == 0:
+            resetTaskTime()
         task_time = getAllTaskTime()
         state_sharing_message = state_message
         state_sharing_message["task_time"] = task_time
@@ -244,7 +244,8 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
 
 def main():
     r = redis.Redis(host='localhost', port=6379, decode_responses=True)
-    setTaskTime()
+    resetTaskTime()
+    resetQueueState()
     #TODO:  2. discvoery fogs 3. connect to fogs and store the connections in factory
     tcp_port = find_idle_port()
     multicast_group = "228.0.0.5"
