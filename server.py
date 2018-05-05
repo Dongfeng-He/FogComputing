@@ -1,10 +1,11 @@
 from twisted.internet import reactor, protocol, task
 import json
 import redis
-from tasks import add, setTaskTime, getTaskTime
+from tasks import add, setTaskTime, getAllTaskTime, taskInQueue
 from message import state_message, fog_hello_message, fog_ready_message, fog_ack_message
 from communication import find_idle_port
 import socket
+from functions import unpack
 
 class FogServerProtocol(protocol.Protocol):
     def connectionMade(self):
@@ -29,6 +30,8 @@ class FogServerProtocol(protocol.Protocol):
         if len(task_message["offloading_fog"]) != 0:
             print(1)
         estimated_task_time = float(self.factory.r.get(task_message["task_name"]))
+        if estimated_task_time == self.factory.previous_task_time and taskInQueue() == 0:
+            setTaskTime()
         idle_fog_task_time = self.factory.findIdleFog(task_message["task_name"], task_message["offloading_fog"])[1]
         print(estimated_task_time)
         if self.factory.cloud_mode == True and self.factory.fog_mode == True:
@@ -128,17 +131,20 @@ class FogServerProtocol(protocol.Protocol):
 
     def dataReceived(self, data):
         data = data.decode("ascii")
-        message = json.loads(data)
-        print(message)
-        if message["message_type"] == "task":
-            self.factory.current_connection = self
-            self.taskHandler(message)
-        elif message["message_type"] == "result":
-            self.resultHandler(message)
-        elif message["message_type"] == "state":
-            self.stateHandler(message)
-        elif message["message_type"] == "fog_ready":
-            self.saveFogNeighbourConnection()
+        unpacked_data = unpack(data)
+        for data in unpacked_data:
+            print(data)
+            message = json.loads(data)
+            print(message)
+            if message["message_type"] == "task":
+                self.factory.current_connection = self
+                self.taskHandler(message)
+            elif message["message_type"] == "result":
+                self.resultHandler(message)
+            elif message["message_type"] == "state":
+                self.stateHandler(message)
+            elif message["message_type"] == "fog_ready":
+                self.saveFogNeighbourConnection()
 
 
     def connectionLost(self, reason):
@@ -155,6 +161,7 @@ class FogServerFactory(protocol.ClientFactory):
         self.state_table = {}
         self.state_table_without_offloaded_fog = {}
         self.send_back_table = {}
+        self.previous_task_time = 0
         self.r = r
         self.next_task_id = task_id_root
         self.fog_mode = fog_mode
@@ -165,7 +172,7 @@ class FogServerFactory(protocol.ClientFactory):
 
 
     def shareState(self):
-        task_time = getTaskTime()
+        task_time = getAllTaskTime()
         state_sharing_message = state_message
         state_sharing_message["task_time"] = task_time
         state_sharing_message = bytes(json.dumps(state_sharing_message), "ascii")

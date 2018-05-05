@@ -1,61 +1,94 @@
-"""
-An example client. Run simpleserv.py first before running this.
-"""
-from __future__ import print_function
-
 from twisted.internet import reactor, protocol
-from twisted.protocols.basic import LineReceiver
+from functions import csvReader
+from message import task_message, endpoint_hello_message
+import json
 
-# a client protocol
 
-class EchoClient(LineReceiver):
-    """Once connected, send a message, then print the result."""
+class ClientProtocol(protocol.Protocol):
+    task_id = 10000
 
     def connectionMade(self):
-        self.sendLine(b"hello, world!")
+        self._peer = self.transport.getPeer()
+        print("Connected to fog server:", self._peer)
 
     def dataReceived(self, data):
-        "As soon as any data is received, write it back."
-        print("Server said:", data)
-        #self.sendLine(bytes(input(), "ascii"))
+        data = data.decode("ascii")
+        message = json.loads(data)
 
+        self.task_id += 1
+        original_task_message = task_message
+        original_task_message['task_id'] = self.task_id
+        original_task_message['task_type'] = 'light'
+        original_task_message['task_name'] = "add"
+        original_task_message['time_requirement'] = 0.05
+        original_task_message['content'] = 1
+        sending_message = bytes(json.dumps(original_task_message), "ascii")
+
+        if message["message_type"] == "fog_ready":
+            self.transport.write(sending_message)
+        elif message["message_type"] == "result":
+            print("Result is: ", message["content"])
+            self.transport.write(sending_message)
 
     def connectionLost(self, reason):
-        print("connection lost")
+        print("Disconnected from", self.transport.getPeer())
 
 
-class EchoFactory(protocol.ClientFactory):
-    protocol = EchoClient
+class ClientFactory(protocol.ClientFactory):
+    protocol = ClientProtocol
+
+    def __init__(self):
+        pass
+
 
     def clientConnectionFailed(self, connector, reason):
-        print("Connection failed - goodbye!")
+        print("Connection failed")
         reactor.stop()
 
     def clientConnectionLost(self, connector, reason):
-        print("Connection lost - goodbye!")
+        print("Connection lost")
         reactor.stop()
 
-class BroadcastClient(protocol.DatagramProtocol):
-    def startProtocol(self):
-        host = "<broadcast>"
-        port = 9999
-        self.transport.setBroadcastAllowed(True)
-        self.transport.write(b"asdf", ("<broadcast>", port))
-        print("now we broadcast at port %d" % port)
 
+class MulticastClientProtocol(protocol.DatagramProtocol):
+    def __init__(self, group, multicast_port, client_num):
+        self.group = group
+        self.multicast_port = multicast_port
+        self.client_num = client_num
+        self.connected = False
+
+    def startProtocol(self):
+        endpoint_hello = endpoint_hello_message
+        self.transport.joinGroup(self.group)
+        self.transport.write(bytes(json.dumps(endpoint_hello), "ascii"), (self.group, self.multicast_port))
 
     def datagramReceived(self, data, addr):
-        print("received %r from %s" % (data, addr))
+        if self.connected == False:
+            data = data.decode("ascii")
+            message = json.loads(data)
+            if message["message_type"] == "fog_ack":
+                fog_ip = addr[0]
+                tcp_port = message["tcp_port"]
+                for i in range(self.client_num):
+                    reactor.connectTCP(fog_ip, tcp_port, ClientFactory())
+                self.connected = True
 
 
-# this connects the protocol to a server running on port 8000
+
+
 def main():
-    f = EchoFactory()
-    reactor.connectTCP("localhost", 8000, f)
-    reactor.listenUDP(0, BroadcastClient())
+    #endpoint_factory = ClientFactory()
+    multicast_group = "228.0.0.5"
+    multicast_port = 8005
+    client_num = 1
+    multicast_client_protocol = MulticastClientProtocol(multicast_group, multicast_port, client_num)
+    reactor.listenMulticast(multicast_port, multicast_client_protocol, listenMultiple=True)
     reactor.run()
 
-
-# this only runs if the module was *not* imported
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
+
+
+
+
+
