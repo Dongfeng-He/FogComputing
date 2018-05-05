@@ -5,6 +5,7 @@ from tasks import add, resetTaskTime, resetQueueState, getAllTaskTime, taskInQue
 from message import state_message, fog_hello_message, fog_ready_message, fog_ack_message
 from communication import find_idle_port
 import socket
+import time
 from functions import unpack
 
 class FogServerProtocol(protocol.Protocol):
@@ -90,7 +91,13 @@ class FogServerProtocol(protocol.Protocol):
             self.transport.write(bytes(json.dumps(result), "ascii"))
 
         if task_message["task_name"] == "add":
-            d = add.delay(task_message["content"], task_message["task_id"])
+            light_task_num = self.factory.r.get('light_task_num')
+            if light_task_num == None:
+                self.factory.r.set('light_task_num', 1)
+            else:
+                self.factory.r.set('light_task_num', int(light_task_num) + 1)
+            enqueue_time = time.time()
+            d = add.delay(task_message["content"], task_message["task_id"], enqueue_time)
             d.addCallback(respond)
             d.addErrback(onError)
 

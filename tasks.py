@@ -74,18 +74,13 @@ all_task_name = ["add"]
 
 @DeferrableTask
 @app.task
-def add(content, task_id):
-    light_task_num = r.get('light_task_num')
-    print(light_task_num)
-    if light_task_num == None:
-        r.set('light_task_num', 1)
-    else:
-        r.set('light_task_num', int(light_task_num) + 1)
+def add(content, task_id, enqueue_time):
+    print(r.get('light_task_num'))
     result = result_message
     result["task_id"] = task_id
-    start_time = time.time()
+    #start_time = time.time()
     result["content"] = pow(3523523523,342323) % 4
-    update_queuing_time(start_time, "add")
+    update_queuing_time(enqueue_time, "add")
     light_task_num = r.get('light_task_num')
     r.set('light_task_num', int(light_task_num) - 1)
 
