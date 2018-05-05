@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="83b1bc76-ba9d-4a24-995a-18099e847907" name="Default" comment="stable version with AWS pem file">
-      <change beforePath="" afterPath="$PROJECT_DIR$/fog_cloud.pem" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/server6380c.py" />
+    <list default="true" id="83b1bc76-ba9d-4a24-995a-18099e847907" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/README.md" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/client_for_cloud.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,8 +18,8 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1581">
-              <caret line="93" column="65" lean-forward="false" selection-start-line="93" selection-start-column="29" selection-end-line="93" selection-end-column="65" />
+            <state relative-caret-position="267">
+              <caret line="259" column="24" lean-forward="true" selection-start-line="259" selection-start-column="24" selection-end-line="259" selection-end-column="24" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -63,11 +63,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="client.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="client.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="52" column="57" lean-forward="false" selection-start-line="52" selection-start-column="57" selection-end-line="52" selection-end-column="57" />
+            <state relative-caret-position="172">
+              <caret line="74" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#46#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="client_for_cloud.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client_for_cloud.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="262">
+              <caret line="78" column="11" lean-forward="false" selection-start-line="78" selection-start-column="10" selection-end-line="78" selection-end-column="11" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
               </folding>
@@ -183,6 +195,8 @@
         <option value="$PROJECT_DIR$/server.py" />
         <option value="$PROJECT_DIR$/tasks.py" />
         <option value="$PROJECT_DIR$/client.py" />
+        <option value="$PROJECT_DIR$/venv/client_for_cloud.py" />
+        <option value="$PROJECT_DIR$/client_for_cloud.py" />
       </list>
     </option>
   </component>
@@ -230,6 +244,11 @@
               <item name="fogcomputing" type="b2602c69:ProjectViewProjectNode" />
               <item name="fogcomputing3" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="fogcomputing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fogcomputing3" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -258,7 +277,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.client">
+  <component name="RunManager" selected="Python.client_for_cloud">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -362,6 +381,24 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="fogcomputing" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/client2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="client_for_cloud" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="fogcomputing" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/client_for_cloud.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -634,22 +671,23 @@
       <option name="_new_target" value="&quot;&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
     </configuration>
-    <list size="15">
-      <item index="0" class="java.lang.String" itemvalue="Python.test1" />
-      <item index="1" class="java.lang.String" itemvalue="Python.multicastServer" />
-      <item index="2" class="java.lang.String" itemvalue="Python.multicastClient" />
-      <item index="3" class="java.lang.String" itemvalue="Python.client1" />
-      <item index="4" class="java.lang.String" itemvalue="Python.server6380b" />
-      <item index="5" class="java.lang.String" itemvalue="Python.server6380c" />
-      <item index="6" class="java.lang.String" itemvalue="Python.server6380" />
-      <item index="7" class="java.lang.String" itemvalue="Python.client2" />
-      <item index="8" class="java.lang.String" itemvalue="Python.server" />
-      <item index="9" class="java.lang.String" itemvalue="Python.client" />
-      <item index="10" class="java.lang.String" itemvalue="Python.server6381" />
-      <item index="11" class="java.lang.String" itemvalue="Python.server6382" />
-      <item index="12" class="java.lang.String" itemvalue="Python.broadcastClient" />
-      <item index="13" class="java.lang.String" itemvalue="Python.broadcastServer" />
-      <item index="14" class="java.lang.String" itemvalue="Python.test2" />
+    <list size="16">
+      <item index="0" class="java.lang.String" itemvalue="Python.client_for_cloud" />
+      <item index="1" class="java.lang.String" itemvalue="Python.test1" />
+      <item index="2" class="java.lang.String" itemvalue="Python.multicastServer" />
+      <item index="3" class="java.lang.String" itemvalue="Python.multicastClient" />
+      <item index="4" class="java.lang.String" itemvalue="Python.client1" />
+      <item index="5" class="java.lang.String" itemvalue="Python.server6380b" />
+      <item index="6" class="java.lang.String" itemvalue="Python.server6380c" />
+      <item index="7" class="java.lang.String" itemvalue="Python.server6380" />
+      <item index="8" class="java.lang.String" itemvalue="Python.client2" />
+      <item index="9" class="java.lang.String" itemvalue="Python.server" />
+      <item index="10" class="java.lang.String" itemvalue="Python.client" />
+      <item index="11" class="java.lang.String" itemvalue="Python.server6381" />
+      <item index="12" class="java.lang.String" itemvalue="Python.server6382" />
+      <item index="13" class="java.lang.String" itemvalue="Python.broadcastClient" />
+      <item index="14" class="java.lang.String" itemvalue="Python.broadcastServer" />
+      <item index="15" class="java.lang.String" itemvalue="Python.test2" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -904,7 +942,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525518328378</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="stable version with AWS pem file">
+      <created>1525518621049</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1525518621049</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -921,8 +966,8 @@
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13661636" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3380682" sideWeight="0.50502515" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3465909" sideWeight="0.49497488" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3465909" sideWeight="0.50833994" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3465909" sideWeight="0.49166006" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1025,14 +1070,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/celery/local.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="143" column="0" lean-forward="false" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fog.py" />
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/txcelery/defer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
@@ -1327,16 +1364,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1581">
-          <caret line="93" column="65" lean-forward="false" selection-start-line="93" selection-start-column="29" selection-end-line="93" selection-end-column="65" />
-          <folding>
-            <element signature="e#0#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tasks.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="237">
@@ -1357,10 +1384,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="259" column="24" lean-forward="true" selection-start-line="259" selection-start-column="24" selection-end-line="259" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/client_for_cloud.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="52" column="57" lean-forward="false" selection-start-line="52" selection-start-column="57" selection-end-line="52" selection-end-column="57" />
+        <state relative-caret-position="172">
+          <caret line="74" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client_for_cloud.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="78" column="11" lean-forward="false" selection-start-line="78" selection-start-column="10" selection-end-line="78" selection-end-column="11" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
           </folding>
