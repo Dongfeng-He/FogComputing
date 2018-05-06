@@ -148,15 +148,7 @@ class FogServerProtocol(protocol.Protocol):
             print(data)
             message = json.loads(data)
             print(message)
-            if message["message_type"] == "task":
-                self.factory.current_connection = self
-                self.taskDistributor(message)
-            elif message["message_type"] == "result":
-                self.resultHandler(message)
-            elif message["message_type"] == "state":
-                self.stateHandler(message)
-            elif message["message_type"] == "fog_ready":
-                self.saveFogNeighbourConnection()
+            self.taskProcessing(message)
 
 
     def connectionLost(self, reason):

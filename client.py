@@ -23,7 +23,7 @@ class ClientProtocol(protocol.Protocol):
         original_task_message['time_requirement'] = 0.05
         original_task_message['content'] = 1
         # cloud processing
-        #original_task_message['cloud_processing'] = True
+        original_task_message['cloud_processing'] = True
         sending_message = bytes(json.dumps(original_task_message), "ascii")
 
         if message["message_type"] == "fog_ready":
