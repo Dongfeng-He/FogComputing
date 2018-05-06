@@ -56,8 +56,8 @@ Connect to the EC2 instance:
 (ssh -i /path/my-key-pair.pem user_name@public_dns_name)
 cd FogComputing
 ssh -i fog_cloud.pem ec2-user@ec2-52-63-235-224.ap-southeast-2.compute.amazonaws.com
-ssh -i fog_cloud.pem ubuntu@ec2-13-211-29-213.ap-southeast-2.compute.amazonaws.com
-(make sure you can open a website in Ubuntu)
+ssh -i fog_cloud.pem ubuntu@ec2-54-206-45-203.ap-southeast-2.compute.amazonaws.com
+(make sure you can open a website in Ubuntu, public DNS changes every time you restart the EC2 instance)
 
 2.4 Configure cloud server (AWS linux)
 sudo yum update

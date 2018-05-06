@@ -13,11 +13,7 @@ class FogServerProtocol(protocol.Protocol):
     def connectionMade(self):
         self._peer = self.transport.getPeer()
         print("Connected to", self._peer)
-        if self._peer.host == self.factory.cloud_ip:
-            self.factory.cloud_connection = self
-        else:
-            fog_ready = bytes(json.dumps(fog_ready_message), "ascii")
-            self.transport.write(fog_ready)
+
 
     def taskInspection(self, task_message):
         '''
@@ -272,10 +268,7 @@ def main():
     multicast_port = 8005
     task_id_root = 10000
     fog_factory = FogServerFactory(r, task_id_root, cloud_ip)
-    multicast_server_protocol = MulticastSeverProtocol(tcp_port, fog_factory, multicast_group, multicast_port)
-    reactor.connectTCP(cloud_ip, tcp_port, fog_factory)
     reactor.listenTCP(tcp_port, fog_factory)
-    reactor.listenMulticast(multicast_port, multicast_server_protocol, listenMultiple=True)
     reactor.run()
 
 
