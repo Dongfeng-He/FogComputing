@@ -13,7 +13,11 @@ class FogServerProtocol(protocol.Protocol):
     def connectionMade(self):
         self._peer = self.transport.getPeer()
         print("Connected to", self._peer)
-
+        if self._peer.host == self.factory.cloud_ip:
+            self.factory.cloud_connection = self
+        else:
+            fog_ready = bytes(json.dumps(fog_ready_message), "ascii")
+            #self.transport.write(fog_ready)
 
     def taskInspection(self, task_message):
         '''
@@ -112,7 +116,7 @@ class FogServerProtocol(protocol.Protocol):
 
         operation = self.taskInspection(task_message)
         if operation == "cloud":
-            pass
+            self.taskSendToCloud(task_message)
         elif operation == "fog":
             self.taskOffloading(task_message)
         elif operation == "accept":
@@ -260,15 +264,20 @@ def main():
     resetTaskTime()
     resetQueueState()
     #TODO:  2. discvoery fogs 3. connect to fogs and store the connections in factory
-    cloud_ip = "54.206.45.203"
-    if len(sys.argv) > 0:
-        cloud_ip = sys.argv[0]
+    cloud_ip = '54.206.45.203'
+    cloud_port = 10000
+    #if len(sys.argv) > 0:
+    #    cloud_ip = sys.argv[0]
     tcp_port = find_idle_port()
     multicast_group = "228.0.0.5"
     multicast_port = 8005
     task_id_root = 10000
     fog_factory = FogServerFactory(r, task_id_root, cloud_ip)
+    multicast_server_protocol = MulticastSeverProtocol(tcp_port, fog_factory, multicast_group, multicast_port)
+    #reactor.connectTCP(cloud_ip, cloud_port, fog_factory)
+    #reactor.connectTCP(cloud_ip, cloud_port, fog_factory)
     reactor.listenTCP(tcp_port, fog_factory)
+    #reactor.listenMulticast(multicast_port, multicast_server_protocol, listenMultiple=True)
     reactor.run()
 
 

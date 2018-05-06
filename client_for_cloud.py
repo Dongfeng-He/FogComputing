@@ -78,7 +78,7 @@ class MulticastClientProtocol(protocol.DatagramProtocol):
 
 
 def main():
-    reactor.connectTCP('13.211.29.213', 10000, ClientFactory())
+    reactor.connectTCP('54.206.45.203', 10000, ClientFactory())
     reactor.run()
 
 if __name__ == "__main__":
