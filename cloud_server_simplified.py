@@ -17,7 +17,6 @@ class FogServerProtocol(protocol.Protocol):
 
     def connectionLost(self, reason):
         print("Disconnected from", self.transport.getPeer())
-        self.deleteFogNeighbourConnection()
 
     def taskProcessing(self, task_message):
         def onError(err):
