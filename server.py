@@ -274,7 +274,6 @@ def main():
     task_id_root = 10000
     fog_factory = FogServerFactory(r, task_id_root, cloud_ip)
     multicast_server_protocol = MulticastSeverProtocol(tcp_port, fog_factory, multicast_group, multicast_port)
-    #reactor.connectTCP(cloud_ip, cloud_port, fog_factory)
     reactor.connectTCP(cloud_ip, cloud_port, fog_factory)
     reactor.listenTCP(tcp_port, fog_factory)
     reactor.listenMulticast(multicast_port, multicast_server_protocol, listenMultiple=True)

@@ -22,6 +22,7 @@ class ClientProtocol(protocol.Protocol):
         original_task_message['task_name'] = "add"
         original_task_message['time_requirement'] = 0.05
         original_task_message['content'] = 1
+        # cloud processing
         original_task_message['cloud_processing'] = True
         sending_message = bytes(json.dumps(original_task_message), "ascii")
 
@@ -78,7 +79,12 @@ class MulticastClientProtocol(protocol.DatagramProtocol):
 
 
 def main():
-    reactor.connectTCP('54.206.45.203', 10000, ClientFactory())
+    #endpoint_factory = ClientFactory()
+    multicast_group = "228.0.0.5"
+    multicast_port = 8005
+    client_num = 1
+    multicast_client_protocol = MulticastClientProtocol(multicast_group, multicast_port, client_num)
+    reactor.listenMulticast(multicast_port, multicast_client_protocol, listenMultiple=True)
     reactor.run()
 
 if __name__ == "__main__":
