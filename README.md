@@ -85,13 +85,16 @@ redis-server
 cd FogComputing
 celery -A tasks worker --loglevel=info
 cd FogComputing
-python3 server.py
+python3 cloud_server_simplified.py
 Change the security group to allow traffic from my IP (every TCP)
 Collect the public IP of the EC2 instance:
 curl http://169.254.169.254/latest/meta-data/public-ipv4
-Client for cloud:
-reactor.connectTCP(cloud_ip, cloud_listening_port, ClientFactory())
+Reminder:
+restart the redis and celery in EC2 every time we access it, the public IP address will change every time we restart the EC2, you should open the cloud server first before opening fog server
 
+2.6 Launch client
+launch client.py for serveral times
+launch client_for_cloud (compulsorily upload to cloud)
 
 
 3. In-use files and functionalities
