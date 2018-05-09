@@ -1,7 +1,7 @@
 from twisted.internet import reactor, protocol, task
 import json
 import redis
-from tasks import add, resetTaskTime, resetQueueState, getAllTaskTime, taskInQueue
+from tasks import light, medium, heavy, resetTaskTime, resetQueueState, getAllTaskTime, taskInQueue, getWaitingTime, getExecutionTime
 from message import state_message, fog_hello_message, fog_ready_message, fog_ack_message
 from communication import find_idle_port
 import socket
@@ -20,45 +20,34 @@ class FogServerProtocol(protocol.Protocol):
             self.transport.write(fog_ready)
 
     def taskInspection(self, task_message):
-        '''
-        print("task time:", self.factory.r.get(task_message["task_name"]))
-        if self.factory.cloud_mode and task_message["cloud_processing"] == True or task_message["offload_times"] >= task_message["max_offload"]:
-            operation = "cloud"
-        elif self.factory.offloading_mode and task_message["time_requirement"] <= float(self.factory.r.get(task_message["task_name"])):
-            operation = "fog"
-        else:
-            operation = "accept"
-
-        if (self.factory.cloud_mode == False and \
-            self.factory.offloading_mode == False) or True:pass
-            '''
-
-        estimated_task_time = float(self.factory.r.get(task_message["task_name"]))
-        idle_fog_task_time = self.factory.findIdleFog(task_message["task_name"], task_message["offloading_fog"])[1]
-        print(estimated_task_time)
+        estimated_waiting_time = getWaitingTime()
+        task_message['estimated_queuing_time'] = estimated_waiting_time
+        task_message['estimated_execution_time'] = getExecutionTime(task_message['task_type'])
+        fog_waiting_time = self.factory.findIdleFog(task_message["task_name"], task_message["offloading_fog"])[1]
+        #print(estimated_waiting_time)
         if self.factory.cloud_mode == True and self.factory.fog_mode == True:
             if task_message["cloud_processing"] == True:
                 operation = "cloud"
             else:
-                if estimated_task_time <= task_message["time_requirement"] or \
+                if estimated_waiting_time <= task_message["time_requirement"] or \
                         (task_message["offload_times"] >= task_message["max_offload"] and task_message["task_type"] != "heavy") or \
-                        (estimated_task_time <= idle_fog_task_time and task_message["task_type"] != "heavy"):
+                        (estimated_waiting_time <= fog_waiting_time and task_message["task_type"] != "heavy"):
                     operation = "accept"
                 elif (task_message["offload_times"] >= task_message["max_offload"] and task_message["task_type"] == "heavy") or \
-                        (estimated_task_time <= idle_fog_task_time and task_message["task_type"] == "heavy"):
+                        (estimated_waiting_time <= fog_waiting_time and task_message["task_type"] == "heavy"):
                     operation = "cloud"
                 else:
                     operation = "fog"
         elif self.factory.cloud_mode == False and self.factory.fog_mode == True:
-            if estimated_task_time <= task_message["time_requirement"] or \
+            if estimated_waiting_time <= task_message["time_requirement"] or \
                     task_message["offload_times"] >= task_message["max_offload"] or \
-                    estimated_task_time <= idle_fog_task_time:
+                    estimated_waiting_time <= fog_waiting_time:
                 operation = "accept"
             else:
                 operation = "fog"
         elif self.factory.cloud_mode == True and self.factory.fog_mode == False:
             if task_message["cloud_processing"] == True or \
-                    (estimated_task_time >= task_message["time_requirement"] and task_message['task_type'] == "heavy"):
+                    (estimated_waiting_time >= task_message["time_requirement"] and task_message['task_type'] == "heavy"):
                 operation = "cloud"
             else:
                 operation = "accept"
@@ -74,14 +63,9 @@ class FogServerProtocol(protocol.Protocol):
         fog = self.factory.findIdleFog(task_message["task_name"])[0]
         task_message["offload_times"] += 1
         host = self.transport.getHost().host
-        #port = self.transport.getHost().port
         task_message["offloading_fog"].append(host)
         fog.transport.write(bytes(json.dumps(task_message), "ascii"))
-        #b = self.factory.state_table.keys()
-        #for c in b:
-        #    c1 = c.transport.getHost()
-        #    c2 = c.transport.getPeer()
-        #a = self.transport.getHost()
+
 
     def taskSendToCloud(self, task_message):
         task_id = task_message["task_id"]
@@ -98,14 +82,34 @@ class FogServerProtocol(protocol.Protocol):
         def respond(result):
             self.transport.write(bytes(json.dumps(result), "ascii"))
 
-        if task_message["task_name"] == "add":
+        if task_message["task_name"] == "light":
             light_task_num = self.factory.r.get('light_task_num')
             if light_task_num == None:
                 self.factory.r.set('light_task_num', 1)
             else:
                 self.factory.r.set('light_task_num', int(light_task_num) + 1)
             enqueue_time = time.time()
-            d = add.delay(task_message["content"], task_message["task_id"], enqueue_time)
+            d = light.delay(task_message, enqueue_time)
+            d.addCallback(respond)
+            d.addErrback(onError)
+        elif task_message["task_name"] == "medium":
+            medium_task_num = self.factory.r.get('medium_task_num')
+            if medium_task_num == None:
+                self.factory.r.set('medium_task_num', 1)
+            else:
+                self.factory.r.set('medium_task_num', int(medium_task_num) + 1)
+            enqueue_time = time.time()
+            d = medium.delay(task_message, enqueue_time)
+            d.addCallback(respond)
+            d.addErrback(onError)
+        elif task_message["task_name"] == "heavy":
+            heavy_task_num = self.factory.r.get('heavy_task_num')
+            if heavy_task_num == None:
+                self.factory.r.set('heavy_task_num', 1)
+            else:
+                self.factory.r.set('heavy_task_num', int(heavy_task_num) + 1)
+            enqueue_time = time.time()
+            d = heavy.delay(task_message, enqueue_time)
             d.addCallback(respond)
             d.addErrback(onError)
 
@@ -186,12 +190,9 @@ class FogServerFactory(protocol.ClientFactory):
 
 
     def shareState(self):
-        total_num, light_num, medium_num, heavy_num = taskInQueue()
-        if total_num == 0:
-            resetTaskTime()
-        task_time = getAllTaskTime()
+        waiting_time = getWaitingTime()
         state_sharing_message = state_message
-        state_sharing_message["task_time"] = task_time
+        state_sharing_message["task_time"] = waiting_time
         state_sharing_message = bytes(json.dumps(state_sharing_message), "ascii")
         if self.fog_neighbour_connection:
             for fog in self.fog_neighbour_connection:
@@ -208,7 +209,7 @@ class FogServerFactory(protocol.ClientFactory):
                 fog_connection, task_time = None, 1000000
             else:
                 fog_connection, all_task_time = min(self.state_table_without_offloaded_fog.items(),
-                                                    key=lambda x: x[1][task_name])
+                                                    key=lambda x: x[1])
                 task_time = all_task_time[task_name]
         else:
             fog_connection, task_time = None, 1000000

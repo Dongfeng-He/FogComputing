@@ -90,7 +90,7 @@ Change the security group to allow traffic from my IP (every TCP)
 Collect the public IP of the EC2 instance:
 curl http://169.254.169.254/latest/meta-data/public-ipv4
 Reminder:
-restart the redis and celery in EC2 every time we access it, the public IP address will change every time we restart the EC2, you should open the cloud server first before opening fog server
+restart the redis and celery in EC2 every time we access it, the public IP address will change every time we restart the EC2, you should open the cloud server first before opening fog server. If there are too many tasks queueing in celery, you can use 'redis-cli FLUSHALL' to clear the redis.
 
 2.6 Launch client
 launch client.py for serveral times

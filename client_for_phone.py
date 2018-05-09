@@ -13,7 +13,7 @@ class Client:
     original_task_message = task_message
     original_task_message['task_id'] = 1
     original_task_message['task_type'] = 'light'
-    original_task_message['task_name'] = "add"
+    original_task_message['task_name'] = "light"
     original_task_message['time_requirement'] = 0.05
     original_task_message['content'] = 1
     fog_message = original_task_message.copy()

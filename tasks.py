@@ -27,8 +27,15 @@ def update_queuing_time(start_time, task_type):
     r.set(task_type, new_queuing_time)
 
 def resetTaskTime():
-    for task_name in all_task_name:
-        r.set(task_name, 0)
+    r.set('last_light_time', 0)
+    r.set('2nd_last_light_time', 0)
+    r.set('estimated_light_time', 0)
+    r.set('last_medium_time', 0)
+    r.set('2nd_last_medium_time', 0)
+    r.set('estimated_medium_time', 0)
+    r.set('last_heavy_time', 0)
+    r.set('2nd_last_heavy_time', 0)
+    r.set('estimated_heavy_time', 0)
 
 def resetQueueState():
     r.set('light_task_num', 0)
@@ -37,11 +44,13 @@ def resetQueueState():
 
 def getAllTaskTime():
     all_task_time = {}
-    for task_name in all_task_name:
-        all_task_time[task_name] = float(r.get(task_name))
+    all_task_time['estimated_light_time'] = float(r.get('estimated_light_time'))
+    all_task_time['estimated_medium_time'] = float(r.get('estimated_medium_time'))
+    all_task_time['estimated_heavy_time'] = float(r.get('estimated_heavy_time'))
     return all_task_time
 
 def taskInQueue():
+    task_num_in_queue = {}
     light_task_num = r.get('light_task_num')
     medium_task_num = r.get('medium_task_num')
     heavy_task_num = r.get('heavy_task_num')
@@ -57,9 +66,35 @@ def taskInQueue():
         heavy_task_num = 0;
     else:
         heavy_task_num = int(heavy_task_num)
-    sum = light_task_num + medium_task_num + heavy_task_num
-    return sum, light_task_num, medium_task_num, heavy_task_num
+    total_task_num = light_task_num + medium_task_num + heavy_task_num
+    task_num_in_queue['light_task_num'] = light_task_num
+    task_num_in_queue['medium_task_num'] = medium_task_num
+    task_num_in_queue['heavy_task_num'] = heavy_task_num
+    task_num_in_queue['total_task_num'] = total_task_num
+    return task_num_in_queue
 
+def getWaitingTime():
+    task_num = taskInQueue()
+    light_task_num = task_num['light_task_num']
+    medium_task_num = task_num['medium_task_num']
+    heavy_task_num = task_num['heavy_task_num']
+    task_time = getAllTaskTime()
+    light_task_time = task_time['estimated_light_time']
+    medium_task_time = task_time['estimated_medium_time']
+    heavy_task_time = task_time['estimated_heavy_time']
+    waiting_time = light_task_num * light_task_time + medium_task_num * medium_task_time + heavy_task_num * heavy_task_time
+    return waiting_time
+
+def getExecutionTime(task_type):
+    if task_type == 'light':
+        execution_time = float(r.get('estimated_light_time'))
+    elif task_type == 'medium':
+        execution_time = float(r.get('estimated_medium_time'))
+    elif task_type == 'heavy':
+        execution_time = float(r.get('estimated_heavy_time'))
+    else:
+        execution_time = 100000
+    return execution_time
 
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
@@ -68,24 +103,99 @@ backend = 'redis://127.0.0.1:6379/6'
 
 app = Celery('tasks', broker = broker, backend = backend)
 
-all_task_name = ["add"]
+#all_task_name = ["light"]
 
 
 
 @DeferrableTask
 @app.task
-def add(content, task_id, enqueue_time):
-    print(r.get('light_task_num'))
+def light(task_message, enqueue_time):
+    start_time = time.time()
+    queuing_time = start_time - enqueue_time
+    print("Number of light-weight task in queue:", r.get('light_task_num'), sep = " ")
+    print('Estimated queuing time:', task_message['estimated_queuing_time'], sep = " ")
+    print('Actual queuing time:', queuing_time, sep = " ")
+    task_content = task_message['content']
     result = result_message
-    result["task_id"] = task_id
-    #start_time = time.time()
-    result["content"] = pow(3523523523,342323) % 4
-    update_queuing_time(enqueue_time, "add")
+    result["task_id"] = task_message['task_id']
+    result["content"] = pow(3523523523,3423) % 4
     light_task_num = r.get('light_task_num')
+    execution_time = time.time() - start_time
+    previous_last_time = float(r.get('last_light_time'))
+    previous_2nd_last_time = float(r.get('2nd_last_light_time'))
+    if previous_2nd_last_time != 0:
+        estimated_light_time = execution_time * 0.5 + previous_last_time * 0.3 + previous_2nd_last_time * 0.2
+    elif previous_last_time != 0:
+        estimated_light_time = execution_time * 0.7 + previous_last_time * 0.3
+    else:
+        estimated_light_time = execution_time
+    r.set('last_light_time', execution_time)
+    r.set('2nd_last_light_time', previous_last_time)
+    r.set('estimated_light_time', estimated_light_time)
     r.set('light_task_num', int(light_task_num) - 1)
-
+    print('Estimated execution time:', task_message['estimated_execution_time'], sep = " ")
+    print('Actual execution time:', execution_time, sep = " ")
     return result
 
+@DeferrableTask
+@app.task
+def medium(task_message, enqueue_time):
+    start_time = time.time()
+    queuing_time = start_time - enqueue_time
+    print("Number of medium-weight task in queue:", r.get('medium_task_num'), sep = " ")
+    print('Estimated queuing time:', task_message['estimated_queuing_time'], sep = " ")
+    print('Actual queuing time:', queuing_time, sep = " ")
+    task_content = task_message['content']
+    result = result_message
+    result["task_id"] = task_message['task_id']
+    result["content"] = pow(3523523523,342323) % 4
+    medium_task_num = r.get('medium_task_num')
+    execution_time = time.time() - start_time
+    previous_last_time = float(r.get('last_medium_time'))
+    previous_2nd_last_time = float(r.get('2nd_last_medium_time'))
+    if previous_2nd_last_time != 0:
+        estimated_medium_time = execution_time * 0.5 + previous_last_time * 0.3 + previous_2nd_last_time * 0.2
+    elif previous_last_time != 0:
+        estimated_medium_time = execution_time * 0.7 + previous_last_time * 0.3
+    else:
+        estimated_medium_time = execution_time
+    r.set('last_medium_time', execution_time)
+    r.set('2nd_last_medium_time', previous_last_time)
+    r.set('estimated_medium_time', estimated_medium_time)
+    r.set('medium_task_num', int(medium_task_num) - 1)
+    print('Estimated execution time:', task_message['estimated_execution_time'], sep = " ")
+    print('Actual execution time:', execution_time, sep = " ")
+    return result
+
+@DeferrableTask
+@app.task
+def heavy(task_message, enqueue_time):
+    start_time = time.time()
+    queuing_time = start_time - enqueue_time
+    print("Number of heavy-weight task in queue:", r.get('heavy_task_num'), sep = " ")
+    print('Estimated queuing time:', task_message['estimated_queuing_time'], sep = " ")
+    print('Actual queuing time:', queuing_time, sep = " ")
+    task_content = task_message['content']
+    result = result_message
+    result["task_id"] = task_message['task_id']
+    result["content"] = pow(3523523523,3423234) % 4
+    heavy_task_num = r.get('heavy_task_num')
+    execution_time = time.time() - start_time
+    previous_last_time = float(r.get('last_heavy_time'))
+    previous_2nd_last_time = float(r.get('2nd_last_heavy_time'))
+    if previous_2nd_last_time != 0:
+        estimated_heavy_time = execution_time * 0.5 + previous_last_time * 0.3 + previous_2nd_last_time * 0.2
+    elif previous_last_time != 0:
+        estimated_heavy_time = execution_time * 0.7 + previous_last_time * 0.3
+    else:
+        estimated_heavy_time = execution_time
+    r.set('last_heavy_time', execution_time)
+    r.set('2nd_last_heavy_time', previous_last_time)
+    r.set('estimated_heavy_time', estimated_heavy_time)
+    r.set('heavy_task_num', int(heavy_task_num) - 1)
+    print('Estimated execution time:', task_message['estimated_execution_time'], sep = " ")
+    print('Actual execution time:', execution_time, sep = " ")
+    return result
 
 
 
