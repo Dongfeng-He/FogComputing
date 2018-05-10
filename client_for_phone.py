@@ -52,4 +52,4 @@ class Client:
 
 
 if __name__=="__main__":
-    client = Client('172.20.10.2', 10000)
+    client = Client('192.168.1.4', 10000)

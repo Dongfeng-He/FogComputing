@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="83b1bc76-ba9d-4a24-995a-18099e847907" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/client_for_phone.py" afterPath="$PROJECT_DIR$/client_for_phone.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="233" column="29" lean-forward="true" selection-start-line="233" selection-start-column="29" selection-end-line="233" selection-end-column="30" />
+            <state relative-caret-position="263">
+              <caret line="212" column="33" lean-forward="true" selection-start-line="212" selection-start-column="33" selection-end-line="212" selection-end-column="33" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -28,8 +29,8 @@
       <file leaf-file-name="tasks.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tasks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2176">
-              <caret line="132" column="44" lean-forward="true" selection-start-line="132" selection-start-column="44" selection-end-line="132" selection-end-column="44" />
+            <state relative-caret-position="140">
+              <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -50,18 +51,18 @@
       <file leaf-file-name="message.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/message.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="54" lean-forward="false" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="54" />
+            <state relative-caret-position="238">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="client_for_phone.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="client_for_phone.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client_for_phone.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="19" lean-forward="true" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+            <state relative-caret-position="103">
+              <caret line="29" column="30" lean-forward="false" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -149,8 +150,8 @@
       <find>state_table</find>
       <find>reset</find>
       <find>fog_wai</find>
-      <find>add</find>
       <find>l</find>
+      <find>add</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -196,10 +197,10 @@
         <option value="$PROJECT_DIR$/2.py" />
         <option value="$PROJECT_DIR$/tasks.py" />
         <option value="$PROJECT_DIR$/cloud_server_simplified.py" />
-        <option value="$PROJECT_DIR$/client_for_phone.py" />
         <option value="$PROJECT_DIR$/client.py" />
         <option value="$PROJECT_DIR$/message.py" />
         <option value="$PROJECT_DIR$/server.py" />
+        <option value="$PROJECT_DIR$/client_for_phone.py" />
       </list>
     </option>
   </component>
@@ -280,7 +281,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.server">
+  <component name="RunManager" selected="Python.client_for_phone">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -745,13 +746,6 @@
       <option name="presentableId" value="Default" />
       <updated>1513644852182</updated>
     </task>
-    <task id="LOCAL-00007" summary="merge fogDiscovery function into multicast server">
-      <created>1514708696892</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1514708696892</updated>
-    </task>
     <task id="LOCAL-00008" summary="delete fogDiscovery fuction">
       <created>1514708794573</created>
       <option name="number" value="00008" />
@@ -1088,7 +1082,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525930765085</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="add stable client for iphone">
+      <created>1525931427741</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1525931427741</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -1111,7 +1112,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38210228" sideWeight="0.49086577" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38210228" sideWeight="0.49086577" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1196,11 +1197,6 @@
           <line>31</line>
           <option name="timeStamp" value="117" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/server.py</url>
-          <line>222</line>
-          <option name="timeStamp" value="129" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -1212,7 +1208,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="130" />
+      <option name="time" value="131" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1515,38 +1511,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client_for_phone.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="19" lean-forward="true" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tasks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2176">
-          <caret line="132" column="44" lean-forward="true" selection-start-line="132" selection-start-column="44" selection-end-line="132" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/message.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="54" lean-forward="false" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="54" />
+        <state relative-caret-position="140">
+          <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="233" column="29" lean-forward="true" selection-start-line="233" selection-start-column="29" selection-end-line="233" selection-end-column="30" />
+        <state relative-caret-position="263">
+          <caret line="212" column="33" lean-forward="true" selection-start-line="212" selection-start-column="33" selection-end-line="212" selection-end-column="33" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/message.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client_for_phone.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="29" column="30" lean-forward="false" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
