@@ -2,7 +2,7 @@ from twisted.internet import reactor, protocol, task
 import json
 import redis
 from tasks import light, medium, heavy, resetTaskTime, resetQueueState, getAllTaskTime, taskInQueue, getWaitingTime, getExecutionTime
-from message import state_message, fog_hello_message, fog_ready_message, fog_ack_message
+from message import state_message, fog_hello_message, fog_ready_message, fog_ack_message, fog_ready_ack_message
 from communication import find_idle_port
 import socket
 import time
@@ -165,6 +165,10 @@ class FogServerProtocol(protocol.Protocol):
                 self.stateHandler(message)
             elif message["message_type"] == "fog_ready":
                 self.saveFogNeighbourConnection()
+                fog_ready_ack = fog_ready_ack_message
+                fog_ready_ack['send_time'] = message['send_time']
+                self.transport.write(bytes(json.dumps(fog_ready_ack), "ascii"))
+            elif message["message_type"] == "fog_ready_ack":
                 self.factory.delay_table[self] = time.time() - message['send_time']
 
 
