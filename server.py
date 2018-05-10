@@ -159,7 +159,8 @@ class FogServerProtocol(protocol.Protocol):
             if message["message_type"] == "task":
                 self.factory.current_connection = self
                 self.taskDistributor(message)
-                print("Receive a task from %s (task ID: %d)" % (self.transport.getPeer().host, message['task_id']))
+                print("Receive a task from %s (task ID: %d)" % (self.transport.getPeer().host, message['task_id']), end = ' ')
+                print("Offloading fogs: ", message['offloading_fog'])
             elif message["message_type"] == "result":
                 self.resultHandler(message)
                 print("Receive a task result from %s (task ID: %d)" % (self.transport.getPeer().host, message['task_id']))
