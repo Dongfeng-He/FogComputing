@@ -759,13 +759,6 @@
       <option name="presentableId" value="Default" />
       <updated>1513644852182</updated>
     </task>
-    <task id="LOCAL-00014" summary="endpoint fogDiscovery --&gt; multicastClient">
-      <created>1525339627766</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1525339627766</updated>
-    </task>
     <task id="LOCAL-00015" summary="endpoint fogDiscovery --&gt; multicastClient">
       <created>1525352316595</created>
       <option name="number" value="00015" />
@@ -1102,7 +1095,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525965042146</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="stable version after adding delay">
+      <created>1525965090406</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1525965090406</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
