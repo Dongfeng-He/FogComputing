@@ -55,9 +55,9 @@ class FogServerProtocol(protocol.Protocol):
                 operation = "accept"
         elif self.factory.cloud_mode == False and self.factory.fog_mode == False:
             operation = "accept"
-        print("Current waiting time: %f" % estimated_waiting_time)
-        print("Fog waiting time: %f" % fog_waiting_time)
-        print("Chosen operation: %s" % operation)
+        print("Current waiting time: %f for (task ID: %d)" % (estimated_waiting_time, task_message['task_id']))
+        print("Fog waiting time: %f for (task ID: %d)" % (fog_waiting_time, task_message['task_id']))
+        print("Chosen operation: %s for (task ID: %d)" % (operation, task_message['task_id']))
         return operation
 
     #TODO: 1.maintain a table of other servers; 2.periodic share task time with other fog servers
@@ -215,14 +215,21 @@ class FogServerFactory(protocol.ClientFactory):
 
     def findIdleFog(self, task_name, offloaded_fog_ip = []):
         self.state_table_without_offloaded_fog = self.state_table.copy()
+        if len(offloaded_fog_ip) > 1:
+            print(2)
         if len(self.state_table):
             if len(offloaded_fog_ip) != 0:
                 for fog_connection in self.state_table.keys():
                     if fog_connection.transport.getPeer().host in offloaded_fog_ip:
                         del self.state_table_without_offloaded_fog[fog_connection]
+                    else:
+                        pass
+            else:
+                pass
             if len(self.state_table_without_offloaded_fog) == 0:
                 fog_connection, task_time = None, 1000000
             else:
+
                 #print(self.delay_table)
                 for fog_connection in self.state_table_without_offloaded_fog.keys():
                     total_fog_time = self.state_table_without_offloaded_fog[fog_connection] + self.delay_table[fog_connection]
