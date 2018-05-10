@@ -65,6 +65,8 @@ class FogServerProtocol(protocol.Protocol):
         task_id = task_message["task_id"]
         self.factory.send_back_table[task_id] = self
         fog = self.factory.findIdleFog(task_message["task_name"])[0]
+        while fog.transport.getPeer().host in task_message["offloading_fog"]:
+            fog = self.factory.findIdleFog(task_message["task_name"])[0]
         task_message["offload_times"] += 1
         host = self.transport.getHost().host
         task_message["offloading_fog"].append(host)
@@ -215,8 +217,6 @@ class FogServerFactory(protocol.ClientFactory):
 
     def findIdleFog(self, task_name, offloaded_fog_ip = []):
         self.state_table_without_offloaded_fog = self.state_table.copy()
-        if len(offloaded_fog_ip) > 1:
-            print(2)
         if len(self.state_table):
             if len(offloaded_fog_ip) != 0:
                 for fog_connection in self.state_table.keys():
@@ -234,8 +234,8 @@ class FogServerFactory(protocol.ClientFactory):
                 for fog_connection in self.state_table_without_offloaded_fog.keys():
                     total_fog_time = self.state_table_without_offloaded_fog[fog_connection] + self.delay_table[fog_connection]
                     self.state_table_without_offloaded_fog[fog_connection] = total_fog_time
-                fog_connection, all_task_time = min(self.state_table_without_offloaded_fog.items(),
-                                                    key=lambda x: x[1])
+                fog_connection, all_task_time = min(self.state_table_without_offloaded_fog.items(), key=lambda x: x[1])
+                fog_ip = fog_connection.transport.getPeer().host
                 task_time = all_task_time
         else:
             fog_connection, task_time = None, 1000000

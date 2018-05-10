@@ -32,7 +32,7 @@ class Client:
 
             task_message = self.cloud_message
             task_message['task_id'] = self.cloud_task_id
-            self.fog_task_id += 1
+            self.cloud_task_id += 1
             sending_message = bytes(json.dumps(task_message), "ascii")
             self.sock.send(sending_message)
             time.sleep(1)
