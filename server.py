@@ -16,7 +16,9 @@ class FogServerProtocol(protocol.Protocol):
         if self._peer.host == self.factory.cloud_ip:
             self.factory.cloud_connection = self
         else:
-            fog_ready = bytes(json.dumps(fog_ready_message), "ascii")
+            fog_ready = fog_ready_message
+            fog_ready['send_time'] = time.time()
+            fog_ready = bytes(json.dumps(fog_ready), "ascii")
             self.transport.write(fog_ready)
 
     def taskInspection(self, task_message):
@@ -163,6 +165,7 @@ class FogServerProtocol(protocol.Protocol):
                 self.stateHandler(message)
             elif message["message_type"] == "fog_ready":
                 self.saveFogNeighbourConnection()
+                self.factory.delay_table[self] = time.time() - message['send_time']
 
 
     def connectionLost(self, reason):
@@ -178,6 +181,7 @@ class FogServerFactory(protocol.ClientFactory):
         self.cloud_ip = cloud_ip
         self.cloud_connection = None
         self.current_connection = None
+        self.delay_table = {}
         self.state_table = {}
         self.state_table_without_offloaded_fog = {}
         self.send_back_table = {}
@@ -210,6 +214,10 @@ class FogServerFactory(protocol.ClientFactory):
             if len(self.state_table_without_offloaded_fog) == 0:
                 fog_connection, task_time = None, 1000000
             else:
+                print(self.factory.delay_table)
+                for fog_connection in self.state_table_without_offloaded_fog.keys():
+                    total_fog_time = self.state_table_without_offloaded_fog[fog_connection] + self.factory.delay_table[fog_connection]
+                    self.state_table_without_offloaded_fog[fog_connection] = total_fog_time
                 fog_connection, all_task_time = min(self.state_table_without_offloaded_fog.items(),
                                                     key=lambda x: x[1])
                 task_time = all_task_time

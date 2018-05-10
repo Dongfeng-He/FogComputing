@@ -23,7 +23,7 @@ endpoint_hello_message = {'message_type':'endpoint_hello'}
 
 fog_ack_message = {'message_type':'fog_ack', 'tcp_port':None}
 
-fog_ready_message = {'message_type':'fog_ready'}
+fog_ready_message = {'message_type':'fog_ready', 'send_time': None}
 
 class FogDiscoveryMessage:
     # when a new end node joins a network, broadcast the a discovery message,
