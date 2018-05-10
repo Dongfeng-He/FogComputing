@@ -23,7 +23,7 @@ def update_queuing_time(func):
 def update_queuing_time(start_time, task_type):
     end_time = time.time()
     new_queuing_time = end_time - start_time
-    print(new_queuing_time)
+    #print(new_queuing_time)
     r.set(task_type, new_queuing_time)
 
 def resetTaskTime():
