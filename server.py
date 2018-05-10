@@ -53,9 +53,9 @@ class FogServerProtocol(protocol.Protocol):
                 operation = "accept"
         elif self.factory.cloud_mode == False and self.factory.fog_mode == False:
             operation = "accept"
-        print("Current waiting time: %f", estimated_waiting_time)
-        print("Fog waiting time: %f", fog_waiting_time)
-        print("Chosen operation: %s", operation)
+        print("Current waiting time: %f" % estimated_waiting_time)
+        print("Fog waiting time: %f" % fog_waiting_time)
+        print("Chosen operation: %s" % operation)
         return operation
 
     #TODO: 1.maintain a table of other servers; 2.periodic share task time with other fog servers
