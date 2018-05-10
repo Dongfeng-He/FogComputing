@@ -27,7 +27,9 @@ class FogServerProtocol(protocol.Protocol):
         task_message['estimated_execution_time'] = getExecutionTime(task_message['task_type'])
         fog_waiting_time = self.factory.findIdleFog(task_message["task_name"], task_message["offloading_fog"])[1]
         #print(estimated_waiting_time)
-        if self.factory.cloud_mode == True and self.factory.fog_mode == True:
+        if len(task_message['offloading_fog']) > 0:
+            operation = "fog"
+        elif self.factory.cloud_mode == True and self.factory.fog_mode == True:
             if task_message["cloud_processing"] == True:
                 operation = "cloud"
             else:
@@ -65,8 +67,6 @@ class FogServerProtocol(protocol.Protocol):
         task_id = task_message["task_id"]
         self.factory.send_back_table[task_id] = self
         fog = self.factory.findIdleFog(task_message["task_name"])[0]
-        while fog.transport.getPeer().host in task_message["offloading_fog"]:
-            fog = self.factory.findIdleFog(task_message["task_name"])[0]
         task_message["offload_times"] += 1
         host = self.transport.getHost().host
         task_message["offloading_fog"].append(host)
