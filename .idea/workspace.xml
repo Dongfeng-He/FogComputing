@@ -17,8 +17,8 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="196" column="51" lean-forward="true" selection-start-line="196" selection-start-column="51" selection-end-line="196" selection-end-column="51" />
+            <state relative-caret-position="-1280">
+              <caret line="62" column="24" lean-forward="true" selection-start-line="62" selection-start-column="24" selection-end-line="62" selection-end-column="24" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -761,13 +761,6 @@
       <option name="presentableId" value="Default" />
       <updated>1513644852182</updated>
     </task>
-    <task id="LOCAL-00020" summary="endpoint fogDiscovery --&gt; multicastClient">
-      <created>1525355311670</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1525355311670</updated>
-    </task>
     <task id="LOCAL-00021" summary="endpoint fogDiscovery --&gt; multicastClient">
       <created>1525355508546</created>
       <option name="number" value="00021" />
@@ -1104,7 +1097,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525969956722</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="stable version after adding delay">
+      <created>1525970020906</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1525970020906</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -1558,8 +1558,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="196" column="51" lean-forward="true" selection-start-line="196" selection-start-column="51" selection-end-line="196" selection-end-column="51" />
+        <state relative-caret-position="-1280">
+          <caret line="62" column="24" lean-forward="true" selection-start-line="62" selection-start-column="24" selection-end-line="62" selection-end-column="24" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>

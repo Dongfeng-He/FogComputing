@@ -57,9 +57,9 @@ class FogServerProtocol(protocol.Protocol):
                 operation = "accept"
         elif self.factory.cloud_mode == False and self.factory.fog_mode == False:
             operation = "accept"
-        print("Current waiting time: %f for (task ID: %d)" % (estimated_waiting_time, task_message['task_id']))
-        print("Fog waiting time: %f for (task ID: %d)" % (fog_waiting_time, task_message['task_id']))
-        print("Chosen operation: %s for (task ID: %d)" % (operation, task_message['task_id']))
+        print("Current waiting time: %f" % (estimated_waiting_time))
+        print("Fog waiting time: %f" % (fog_waiting_time))
+        print("Chosen operation: %s" % (operation))
         return operation
 
     #TODO: 1.maintain a table of other servers; 2.periodic share task time with other fog servers
@@ -79,7 +79,6 @@ class FogServerProtocol(protocol.Protocol):
         self.factory.send_back_table[task_id] = self
         cloud = self.factory.cloud_connection
         cloud.transport.write(bytes(json.dumps(task_message), "ascii"))
-#
 
 
     def taskProcessing(self, task_message):
