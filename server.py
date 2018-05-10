@@ -214,9 +214,9 @@ class FogServerFactory(protocol.ClientFactory):
             if len(self.state_table_without_offloaded_fog) == 0:
                 fog_connection, task_time = None, 1000000
             else:
-                print(self.factory.delay_table)
+                print(self.delay_table)
                 for fog_connection in self.state_table_without_offloaded_fog.keys():
-                    total_fog_time = self.state_table_without_offloaded_fog[fog_connection] + self.factory.delay_table[fog_connection]
+                    total_fog_time = self.state_table_without_offloaded_fog[fog_connection] + self.delay_table[fog_connection]
                     self.state_table_without_offloaded_fog[fog_connection] = total_fog_time
                 fog_connection, all_task_time = min(self.state_table_without_offloaded_fog.items(),
                                                     key=lambda x: x[1])
