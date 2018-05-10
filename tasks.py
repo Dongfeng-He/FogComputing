@@ -112,9 +112,9 @@ app = Celery('tasks', broker = broker, backend = backend)
 def light(task_message, enqueue_time):
     start_time = time.time()
     queuing_time = start_time - enqueue_time
-    print("Number of light-weight task in queue:", r.get('light_task_num'), sep = " ")
-    print('Estimated queuing time:', task_message['estimated_queuing_time'], sep = " ")
-    print('Actual queuing time:', queuing_time, sep = " ")
+    print("Number of light-weight task in queue: %s" % r.get('light_task_num'))
+    print('Estimated queuing time: %f' % task_message['estimated_queuing_time'])
+    print('Actual queuing time: %f' % queuing_time)
     task_content = task_message['content']
     result = result_message
     result["task_id"] = task_message['task_id']
@@ -134,8 +134,8 @@ def light(task_message, enqueue_time):
     r.set('2nd_last_light_time', previous_last_time)
     r.set('estimated_light_time', estimated_light_time)
     r.set('light_task_num', int(light_task_num) - 1)
-    print('Estimated execution time:', task_message['estimated_execution_time'], sep = " ")
-    print('Actual execution time:', execution_time, sep = " ")
+    print('Estimated execution time: %f' %  task_message['estimated_execution_time'])
+    print('Actual execution time: %f' % execution_time)
     return result
 
 @DeferrableTask
@@ -143,9 +143,9 @@ def light(task_message, enqueue_time):
 def medium(task_message, enqueue_time):
     start_time = time.time()
     queuing_time = start_time - enqueue_time
-    print("Number of medium-weight task in queue:", r.get('medium_task_num'), sep = " ")
-    print('Estimated queuing time:', task_message['estimated_queuing_time'], sep = " ")
-    print('Actual queuing time:', queuing_time, sep = " ")
+    print("Number of medium-weight task in queue: %s" % r.get('medium_task_num'))
+    print('Estimated queuing time: %f' % task_message['estimated_queuing_time'])
+    print('Actual queuing time: %f' % queuing_time)
     task_content = task_message['content']
     result = result_message
     result["task_id"] = task_message['task_id']
@@ -165,8 +165,8 @@ def medium(task_message, enqueue_time):
     r.set('2nd_last_medium_time', previous_last_time)
     r.set('estimated_medium_time', estimated_medium_time)
     r.set('medium_task_num', int(medium_task_num) - 1)
-    print('Estimated execution time:', task_message['estimated_execution_time'], sep = " ")
-    print('Actual execution time:', execution_time, sep = " ")
+    print('Estimated execution time: %f' % task_message['estimated_execution_time'])
+    print('Actual execution time: %f' % execution_time)
     return result
 
 @DeferrableTask
@@ -174,9 +174,9 @@ def medium(task_message, enqueue_time):
 def heavy(task_message, enqueue_time):
     start_time = time.time()
     queuing_time = start_time - enqueue_time
-    print("Number of heavy-weight task in queue:", r.get('heavy_task_num'), sep = " ")
-    print('Estimated queuing time:', task_message['estimated_queuing_time'], sep = " ")
-    print('Actual queuing time:', queuing_time, sep = " ")
+    print("Number of heavy-weight task in queue: %s" % r.get('heavy_task_num'))
+    print('Estimated queuing time: %f' % task_message['estimated_queuing_time'])
+    print('Actual queuing time: %f' % queuing_time)
     task_content = task_message['content']
     result = result_message
     result["task_id"] = task_message['task_id']
@@ -196,8 +196,8 @@ def heavy(task_message, enqueue_time):
     r.set('2nd_last_heavy_time', previous_last_time)
     r.set('estimated_heavy_time', estimated_heavy_time)
     r.set('heavy_task_num', int(heavy_task_num) - 1)
-    print('Estimated execution time:', task_message['estimated_execution_time'], sep = " ")
-    print('Actual execution time:', execution_time, sep = " ")
+    print('Estimated execution time: %f' % task_message['estimated_execution_time'])
+    print('Actual execution time: %f' % execution_time)
     return result
 
 

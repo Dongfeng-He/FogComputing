@@ -12,7 +12,7 @@ import sys
 class FogServerProtocol(protocol.Protocol):
     def connectionMade(self):
         self._peer = self.transport.getPeer()
-        print("Connected to", self._peer)
+        print("Connected to", self._peer.host)
         if self._peer.host == self.factory.cloud_ip:
             self.factory.cloud_connection = self
         else:
@@ -137,30 +137,32 @@ class FogServerProtocol(protocol.Protocol):
 
     def stateHandler(self, state_message):
         self.factory.state_table[self] = state_message["task_time"]
-        print(self.factory.state_table)
+        #print(self.factory.state_table)
 
     def saveFogNeighbourConnection(self):
         self.factory.fog_neighbour_connection.append(self)
-        print(self.factory.fog_neighbour_connection)
+        #print(self.factory.fog_neighbour_connection)
 
     def deleteFogNeighbourConnection(self):
         if self in self.factory.fog_neighbour_connection:
             self.factory.fog_neighbour_connection.remove(self)
-            print(self.factory.fog_neighbour_connection)
+            #print(self.factory.fog_neighbour_connection)
 
 
     def dataReceived(self, data):
         data = data.decode("ascii")
         unpacked_data = unpack(data)
         for data in unpacked_data:
-            print(data)
+            #print(data)
             message = json.loads(data)
-            print(message)
+            #print(message)
             if message["message_type"] == "task":
                 self.factory.current_connection = self
                 self.taskDistributor(message)
+                print("Receive a task from %s" % self.transport.getPeer.host)
             elif message["message_type"] == "result":
                 self.resultHandler(message)
+                print("Receive a task result from %s" % self.transport.getPeer.host)
             elif message["message_type"] == "state":
                 self.stateHandler(message)
             elif message["message_type"] == "fog_ready":
@@ -173,7 +175,7 @@ class FogServerProtocol(protocol.Protocol):
 
 
     def connectionLost(self, reason):
-        print("Disconnected from", self.transport.getPeer())
+        print("Disconnected from", self.transport.getPeer().host)
         self.deleteFogNeighbourConnection()
 
 
@@ -218,7 +220,7 @@ class FogServerFactory(protocol.ClientFactory):
             if len(self.state_table_without_offloaded_fog) == 0:
                 fog_connection, task_time = None, 1000000
             else:
-                print(self.delay_table)
+                #print(self.delay_table)
                 for fog_connection in self.state_table_without_offloaded_fog.keys():
                     total_fog_time = self.state_table_without_offloaded_fog[fog_connection] + self.delay_table[fog_connection]
                     self.state_table_without_offloaded_fog[fog_connection] = total_fog_time
@@ -243,6 +245,7 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
         self.multicast_port = multicast_port
         self.fog_factory = fog_factory
         self.ip = self.get_host_ip()
+        print("Fog server running at %s:%s" % (self.ip, self.tcp_port))
 
     def startProtocol(self):
         self.transport.setTTL(5) # Set the TTL>1 so multicast will cross router hops
@@ -253,7 +256,7 @@ class MulticastSeverProtocol(protocol.DatagramProtocol):
     def datagramReceived(self, data, addr):
         data = data.decode("ascii")
         message = json.loads(data)
-        print(message)
+        #print(message)
         if message["message_type"] == "fog_hello":
             fog_ip = addr[0]
             tcp_port = message["tcp_port"]
