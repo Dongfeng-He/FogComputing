@@ -187,7 +187,7 @@ class FogServerProtocol(protocol.Protocol):
 class FogServerFactory(protocol.ClientFactory):
     protocol = FogServerProtocol
 
-    def __init__(self, r, task_id_root, cloud_ip, fog_mode = True, cloud_mode = True, sharing_interval = 5):
+    def __init__(self, r, task_id_root, cloud_ip, fog_mode = True, cloud_mode = True, sharing_interval = 1):
         self.fog_neighbour_connection = []
         self.cloud_ip = cloud_ip
         self.cloud_connection = None
