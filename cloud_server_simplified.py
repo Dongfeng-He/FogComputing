@@ -59,6 +59,7 @@ class FogServerProtocol(protocol.Protocol):
 
 class FogServerFactory(protocol.ClientFactory):
     protocol = FogServerProtocol
+    print("Cloud server is running.")
 
     def __init__(self, r):
         self.r = r
