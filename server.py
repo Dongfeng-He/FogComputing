@@ -28,7 +28,7 @@ class FogServerProtocol(protocol.Protocol):
         fog_waiting_time = self.factory.findIdleFog(task_message["task_name"], task_message["offloading_fog"])[1]
         #print(estimated_waiting_time)
         if len(task_message['offloading_fog']) > 0:
-            operation = "fog"
+            operation = "accept"
         elif self.factory.cloud_mode == True and self.factory.fog_mode == True:
             if task_message["cloud_processing"] == True:
                 operation = "cloud"
