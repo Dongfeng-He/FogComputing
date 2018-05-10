@@ -18,8 +18,8 @@ class ClientProtocol(protocol.Protocol):
         self.task_id += 1
         original_task_message = task_message
         original_task_message['task_id'] = self.task_id
-        original_task_message['task_type'] = 'medium'
-        original_task_message['task_name'] = "medium"
+        original_task_message['task_type'] = 'light'
+        original_task_message['task_name'] = "light"
         original_task_message['time_requirement'] = 0.05
         original_task_message['content'] = 1
         # cloud processing

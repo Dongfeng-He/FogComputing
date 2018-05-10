@@ -120,6 +120,7 @@ def light(task_message, enqueue_time):
     result["task_id"] = task_message['task_id']
     result["content"] = pow(3523523523,3423) % 4
     light_task_num = r.get('light_task_num')
+    update_queuing_time(enqueue_time, 'light')
     execution_time = time.time() - start_time
     previous_last_time = float(r.get('last_light_time'))
     previous_2nd_last_time = float(r.get('2nd_last_light_time'))
@@ -151,6 +152,7 @@ def medium(task_message, enqueue_time):
     result["content"] = pow(3523523523,342323) % 4
     medium_task_num = r.get('medium_task_num')
     execution_time = time.time() - start_time
+    update_queuing_time(enqueue_time, 'medium')
     previous_last_time = float(r.get('last_medium_time'))
     previous_2nd_last_time = float(r.get('2nd_last_medium_time'))
     if previous_2nd_last_time != 0:
@@ -178,9 +180,10 @@ def heavy(task_message, enqueue_time):
     task_content = task_message['content']
     result = result_message
     result["task_id"] = task_message['task_id']
-    result["content"] = pow(3523523523,3423234) % 4
+    result["content"] = pow(3523523523,442323) % 4
     heavy_task_num = r.get('heavy_task_num')
     execution_time = time.time() - start_time
+    update_queuing_time(enqueue_time, 'heavy')
     previous_last_time = float(r.get('last_heavy_time'))
     previous_2nd_last_time = float(r.get('2nd_last_heavy_time'))
     if previous_2nd_last_time != 0:
