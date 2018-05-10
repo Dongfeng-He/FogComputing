@@ -1,7 +1,7 @@
 from twisted.internet import reactor, protocol, task
 import json
 import redis
-from tasks import add, resetTaskTime, resetQueueState, getAllTaskTime, taskInQueue
+from tasks import light, medium, heavy, resetTaskTime, resetQueueState, getAllTaskTime, taskInQueue
 import time
 from functions import unpack
 
@@ -25,14 +25,34 @@ class FogServerProtocol(protocol.Protocol):
         def respond(result):
             self.transport.write(bytes(json.dumps(result), "ascii"))
 
-        if task_message["task_name"] == "add":
+        if task_message["task_name"] == "light":
             light_task_num = self.factory.r.get('light_task_num')
             if light_task_num == None:
                 self.factory.r.set('light_task_num', 1)
             else:
                 self.factory.r.set('light_task_num', int(light_task_num) + 1)
             enqueue_time = time.time()
-            d = add.delay(task_message["content"], task_message["task_id"], enqueue_time)
+            d = light.delay(task_message, enqueue_time)
+            d.addCallback(respond)
+            d.addErrback(onError)
+        elif task_message["task_name"] == "medium":
+            medium_task_num = self.factory.r.get('medium_task_num')
+            if medium_task_num == None:
+                self.factory.r.set('medium_task_num', 1)
+            else:
+                self.factory.r.set('medium_task_num', int(medium_task_num) + 1)
+            enqueue_time = time.time()
+            d = medium.delay(task_message, enqueue_time)
+            d.addCallback(respond)
+            d.addErrback(onError)
+        elif task_message["task_name"] == "heavy":
+            heavy_task_num = self.factory.r.get('heavy_task_num')
+            if heavy_task_num == None:
+                self.factory.r.set('heavy_task_num', 1)
+            else:
+                self.factory.r.set('heavy_task_num', int(heavy_task_num) + 1)
+            enqueue_time = time.time()
+            d = heavy.delay(task_message, enqueue_time)
             d.addCallback(respond)
             d.addErrback(onError)
 
