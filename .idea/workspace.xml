@@ -17,8 +17,8 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="162" column="69" lean-forward="true" selection-start-line="162" selection-start-column="69" selection-end-line="162" selection-end-column="69" />
+            <state relative-caret-position="209">
+              <caret line="143" column="51" lean-forward="false" selection-start-line="143" selection-start-column="51" selection-end-line="143" selection-end-column="51" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -295,7 +295,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.client_for_phone">
+  <component name="RunManager" selected="Python.server">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -760,13 +760,6 @@
       <option name="presentableId" value="Default" />
       <updated>1513644852182</updated>
     </task>
-    <task id="LOCAL-00012" summary="endpoint fogDiscovery --&gt; multicastClient">
-      <created>1514876515246</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1514876515247</updated>
-    </task>
     <task id="LOCAL-00013" summary="endpoint fogDiscovery --&gt; multicastClient">
       <created>1525329165349</created>
       <option name="number" value="00013" />
@@ -1103,7 +1096,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525962623152</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="stable version after adding delay">
+      <created>1525963091063</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1525963091064</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -1557,8 +1557,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="162" column="69" lean-forward="true" selection-start-line="162" selection-start-column="69" selection-end-line="162" selection-end-column="69" />
+        <state relative-caret-position="209">
+          <caret line="143" column="51" lean-forward="false" selection-start-line="143" selection-start-column="51" selection-end-line="143" selection-end-column="51" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>

@@ -12,9 +12,9 @@ import sys
 class FogServerProtocol(protocol.Protocol):
     def connectionMade(self):
         self._peer = self.transport.getPeer()
-        print("Connected to", self._peer.host)
         if self._peer.host == self.factory.cloud_ip:
             self.factory.cloud_connection = self
+            print("Connected to %s (cloud)" % self._peer.host)
         else:
             fog_ready = fog_ready_message
             fog_ready['send_time'] = time.time()
@@ -69,6 +69,7 @@ class FogServerProtocol(protocol.Protocol):
         host = self.transport.getHost().host
         task_message["offloading_fog"].append(host)
         fog.transport.write(bytes(json.dumps(task_message), "ascii"))
+        print("Offload (task ID: %d) to %s" % (task_id, fog.transport.getPeer().host))
 
 
     def taskSendToCloud(self, task_message):
@@ -173,6 +174,7 @@ class FogServerProtocol(protocol.Protocol):
                 self.transport.write(bytes(json.dumps(fog_ready_ack), "ascii"))
             elif message["message_type"] == "fog_ready_ack":
                 self.factory.delay_table[self] = time.time() - message['send_time']
+                print("Connected to %s (fog)" % self.transport.getPeer().host)
 
 
     def connectionLost(self, reason):
