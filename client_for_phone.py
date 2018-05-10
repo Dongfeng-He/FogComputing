@@ -9,11 +9,12 @@ class Client:
     cloud_task_id = 10000
     task_message = {'message_type': 'task', 'task_id': None, 'task_type': None, 'task_name': None, 'content': None, \
                     'cloud_processing': False, 'offload_times': 0, 'offloading_fog': [], 'max_offload': 4,
-                    'time_requirement': 10000}
+                    'time_requirement': 10000, \
+                    'estimated_queuing_time': 0, 'queuing_time': 0, 'estimated_execution_time': 0, 'execution_time': 0}
     original_task_message = task_message
     original_task_message['task_id'] = 1
-    original_task_message['task_type'] = 'light'
-    original_task_message['task_name'] = "light"
+    original_task_message['task_type'] = 'medium'
+    original_task_message['task_name'] = "medium"
     original_task_message['time_requirement'] = 0.05
     original_task_message['content'] = 1
     fog_message = original_task_message.copy()
@@ -51,4 +52,4 @@ class Client:
 
 
 if __name__=="__main__":
-    client = Client('192.168.1.10', 10000)
+    client = Client('172.20.10.2', 10000)

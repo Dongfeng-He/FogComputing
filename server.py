@@ -210,7 +210,7 @@ class FogServerFactory(protocol.ClientFactory):
             else:
                 fog_connection, all_task_time = min(self.state_table_without_offloaded_fog.items(),
                                                     key=lambda x: x[1])
-                task_time = all_task_time[task_name]
+                task_time = all_task_time
         else:
             fog_connection, task_time = None, 1000000
         return fog_connection, task_time
