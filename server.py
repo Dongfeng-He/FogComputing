@@ -25,11 +25,11 @@ class FogServerProtocol(protocol.Protocol):
         estimated_waiting_time = getWaitingTime()
         task_message['estimated_queuing_time'] = estimated_waiting_time
         task_message['estimated_execution_time'] = getExecutionTime(task_message['task_type'])
-        fog_waiting_time = self.factory.findIdleFog(task_message["task_name"], task_message["offloading_fog"])[1]
+        fog_waiting_time = self.factory.findIdleFog(task_message["offloading_fog"])[1]
         #print(estimated_waiting_time)
-        if len(task_message['offloading_fog']) > 0:
-            operation = "accept"
-        elif self.factory.cloud_mode == True and self.factory.fog_mode == True:
+        #if len(task_message['offloading_fog']) > 0:
+        #    operation = "accept"
+        if self.factory.cloud_mode == True and self.factory.fog_mode == True:
             if task_message["cloud_processing"] == True:
                 operation = "cloud"
             else:
@@ -66,7 +66,7 @@ class FogServerProtocol(protocol.Protocol):
     def taskOffloading(self, task_message):
         task_id = task_message["task_id"]
         self.factory.send_back_table[task_id] = self
-        fog = self.factory.findIdleFog(task_message["task_name"])[0]
+        fog = self.factory.findIdleFog(task_message["offloading_fog"])[0]
         task_message["offload_times"] += 1
         host = self.transport.getHost().host
         task_message["offloading_fog"].append(host)
@@ -139,25 +139,20 @@ class FogServerProtocol(protocol.Protocol):
 
     def stateHandler(self, state_message):
         self.factory.state_table[self] = state_message["task_time"]
-        #print(self.factory.state_table)
 
     def saveFogNeighbourConnection(self):
         self.factory.fog_neighbour_connection.append(self)
-        #print(self.factory.fog_neighbour_connection)
 
     def deleteFogNeighbourConnection(self):
         if self in self.factory.fog_neighbour_connection:
             self.factory.fog_neighbour_connection.remove(self)
-            #print(self.factory.fog_neighbour_connection)
 
 
     def dataReceived(self, data):
         data = data.decode("ascii")
         unpacked_data = unpack(data)
         for data in unpacked_data:
-            #print(data)
             message = json.loads(data)
-            #print(message)
             if message["message_type"] == "task":
                 self.factory.current_connection = self
                 self.taskDistributor(message)
@@ -193,7 +188,7 @@ class FogServerFactory(protocol.ClientFactory):
         self.current_connection = None
         self.delay_table = {}
         self.state_table = {}
-        self.state_table_without_offloaded_fog = {}
+        self.state_table_without_offloading_fog = {}
         self.send_back_table = {}
         self.previous_task_time = 0
         self.r = r
@@ -214,26 +209,27 @@ class FogServerFactory(protocol.ClientFactory):
             for fog in self.fog_neighbour_connection:
                 fog.transport.write(state_sharing_message)
 
-    def findIdleFog(self, task_name, offloaded_fog_ip = []):
-        self.state_table_without_offloaded_fog = self.state_table.copy()
+    def findIdleFog(self, offloaded_fog_ip):
+        self.state_table_without_offloading_fog = self.state_table.copy()
         if len(self.state_table):
             if len(offloaded_fog_ip) != 0:
                 for fog_connection in self.state_table.keys():
-                    if fog_connection.transport.getPeer().host in offloaded_fog_ip:
-                        del self.state_table_without_offloaded_fog[fog_connection]
+                    fog_connection_ip = fog_connection.transport.getPeer().host
+                    if fog_connection_ip in offloaded_fog_ip:
+                        del self.state_table_without_offloading_fog[fog_connection]
                     else:
                         pass
             else:
                 pass
-            if len(self.state_table_without_offloaded_fog) == 0:
+            if len(self.state_table_without_offloading_fog) == 0:
                 fog_connection, task_time = None, 1000000
             else:
 
                 #print(self.delay_table)
-                for fog_connection in self.state_table_without_offloaded_fog.keys():
-                    total_fog_time = self.state_table_without_offloaded_fog[fog_connection] + self.delay_table[fog_connection]
-                    self.state_table_without_offloaded_fog[fog_connection] = total_fog_time
-                fog_connection, all_task_time = min(self.state_table_without_offloaded_fog.items(), key=lambda x: x[1])
+                for fog_connection in self.state_table_without_offloading_fog.keys():
+                    total_fog_time = self.state_table_without_offloading_fog[fog_connection] + self.delay_table[fog_connection]
+                    self.state_table_without_offloading_fog[fog_connection] = total_fog_time
+                fog_connection, all_task_time = min(self.state_table_without_offloading_fog.items(), key=lambda x: x[1])
                 fog_ip = fog_connection.transport.getPeer().host
                 task_time = all_task_time
         else:
