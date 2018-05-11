@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="83b1bc76-ba9d-4a24-995a-18099e847907" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/server.py" afterPath="$PROJECT_DIR$/server.py" />
-      <change beforePath="$PROJECT_DIR$/server6380.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/server6380b.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/server6380c.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/server6381.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/server6382.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/client_for_phone.py" afterPath="$PROJECT_DIR$/client_for_phone.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="52" column="19" lean-forward="true" selection-start-line="52" selection-start-column="19" selection-end-line="52" selection-end-column="19" />
+            <state relative-caret-position="17">
+              <caret line="21" column="43" lean-forward="false" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -34,7 +29,7 @@
       <file leaf-file-name="cloud_server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cloud_server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-304">
+            <state relative-caret-position="2856">
               <caret line="177" column="0" lean-forward="false" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
               <folding />
             </state>
@@ -44,8 +39,8 @@
       <file leaf-file-name="tasks.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tasks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="103" column="25" lean-forward="false" selection-start-line="103" selection-start-column="25" selection-end-line="103" selection-end-column="25" />
+            <state relative-caret-position="213">
+              <caret line="76" column="28" lean-forward="true" selection-start-line="76" selection-start-column="28" selection-end-line="76" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -54,7 +49,7 @@
       <file leaf-file-name="client.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
+            <state relative-caret-position="255">
               <caret line="18" column="40" lean-forward="false" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
@@ -66,18 +61,18 @@
       <file leaf-file-name="message.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/message.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="170">
+              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="client_for_phone.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="client_for_phone.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client_for_phone.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="36" column="30" lean-forward="false" selection-start-line="36" selection-start-column="30" selection-end-line="36" selection-end-column="30" />
+            <state relative-caret-position="198">
+              <caret line="29" column="64" lean-forward="true" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -88,7 +83,7 @@
       <file leaf-file-name="cloud_server_simplified.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cloud_server_simplified.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
+            <state relative-caret-position="952">
               <caret line="61" column="14" lean-forward="false" selection-start-line="61" selection-start-column="14" selection-end-line="61" selection-end-column="14" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
@@ -146,8 +141,8 @@
       <find>offloading</find>
       <find>add</find>
       <find>endp</find>
-      <find>print</find>
       <find>findIdleFog</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -195,8 +190,8 @@
         <option value="$PROJECT_DIR$/tasks.py" />
         <option value="$PROJECT_DIR$/cloud_server.py" />
         <option value="$PROJECT_DIR$/cloud_server_simplified.py" />
-        <option value="$PROJECT_DIR$/client_for_phone.py" />
         <option value="$PROJECT_DIR$/server.py" />
+        <option value="$PROJECT_DIR$/client_for_phone.py" />
       </list>
     </option>
   </component>
@@ -236,8 +231,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -254,6 +247,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -631,34 +626,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="fff" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Twisted Trial">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="fff" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="fff" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-    </configuration>
     <configuration default="true" type="tests" factoryName="py.test">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -707,6 +674,34 @@
       <option name="_new_target" value="&quot;&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
     </configuration>
+    <configuration default="true" type="tests" factoryName="Twisted Trial">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="fff" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="fff" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
     <list size="18">
       <item index="0" class="java.lang.String" itemvalue="Python.client_for_cloud" />
       <item index="1" class="java.lang.String" itemvalue="Python.client_for_phone" />
@@ -741,13 +736,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1513644852182</updated>
-    </task>
-    <task id="LOCAL-00024" summary="endpoint fogDiscovery --&gt; multicastClient">
-      <created>1525356199439</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1525356199439</updated>
     </task>
     <task id="LOCAL-00025" summary="endpoint fogDiscovery --&gt; multicastClient">
       <created>1525356892102</created>
@@ -1085,7 +1073,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525970830612</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="maybe solve the offloading problem">
+      <created>1526011792544</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1526011792544</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -1184,7 +1179,8 @@
     <MESSAGE value="add cloud_server, add sendtocloud()" />
     <MESSAGE value="add stable client for iphone" />
     <MESSAGE value="stable version after adding delay" />
-    <option name="LAST_COMMIT_MESSAGE" value="stable version after adding delay" />
+    <MESSAGE value="maybe solve the offloading problem" />
+    <option name="LAST_COMMIT_MESSAGE" value="maybe solve the offloading problem" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1417,7 +1413,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1478,7 +1473,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cloud_server_simplified.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
+        <state relative-caret-position="952">
           <caret line="61" column="14" lean-forward="false" selection-start-line="61" selection-start-column="14" selection-end-line="61" selection-end-column="14" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
@@ -1488,7 +1483,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cloud_server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-304">
+        <state relative-caret-position="2856">
           <caret line="177" column="0" lean-forward="false" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
           <folding />
         </state>
@@ -1496,7 +1491,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
+        <state relative-caret-position="255">
           <caret line="18" column="40" lean-forward="false" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
@@ -1504,38 +1499,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client_for_phone.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="36" column="30" lean-forward="false" selection-start-line="36" selection-start-column="30" selection-end-line="36" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/message.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="103" column="25" lean-forward="false" selection-start-line="103" selection-start-column="25" selection-end-line="103" selection-end-column="25" />
+        <state relative-caret-position="170">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="52" column="19" lean-forward="true" selection-start-line="52" selection-start-column="19" selection-end-line="52" selection-end-column="19" />
+        <state relative-caret-position="17">
+          <caret line="21" column="43" lean-forward="false" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="76" column="28" lean-forward="true" selection-start-line="76" selection-start-column="28" selection-end-line="76" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client_for_phone.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="29" column="64" lean-forward="true" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
