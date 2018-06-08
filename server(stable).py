@@ -125,16 +125,11 @@ class FogServerProtocol(protocol.Protocol):
             self.factory.next_task_id += 1
 
         operation = self.taskInspection(task_message)
-        task_message["distribution_time"] = time.time()
         if operation == "cloud":
-            task_message['processby'] = "cloud"
             self.taskSendToCloud(task_message)
         elif operation == "fog":
-            task_message['processby'] = "fog"
             self.taskOffloading(task_message)
         elif operation == "accept":
-            if int(task_message['offload_times']) == 0:
-                task_message['processby'] = "local"
             self.taskProcessing(task_message)
 
     def resultHandler(self, result_message):

@@ -2,7 +2,6 @@ import socket
 import json
 import threading
 import time
-from functions import unpack
 
 class Client:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,7 +26,6 @@ class Client:
         while True:
             task_message = self.fog_message
             task_message['task_id'] = self.fog_task_id
-            task_message['sending_time'] = time.time()
             self.fog_task_id += 1
             sending_message = bytes(json.dumps(task_message), "ascii")
             self.sock.send(sending_message)
@@ -51,28 +49,6 @@ class Client:
                 break;
             else:
                 print(data)
-                data = data.decode("ascii")
-                print(data)
-                unpacked_data = unpack(data)
-                for data in unpacked_data:
-                    message = json.loads(data)
-                    time_requirement = float(message['time_requirement'])
-                    execution_time = float(message['execution_time'])
-                    responding_time = time.time() - float(message['sending_time'])
-                    waiting_time = responding_time - execution_time
-                    offloading_times = message['offload_times']
-                    processby = message['processby']
-                    if waiting_time > time_requirement:
-                        is_in_time = 0
-                    else:
-                        is_in_time = 1
-                    print("Required_time: %f" % time_requirement)
-                    print("Waiting_time: %f" % waiting_time)
-                    print("In time or not: %d" % is_in_time)
-                    print("responding_time (delay): %f" % responding_time)
-                    print("offloading_times: %d" % offloading_times)
-                    print("processby: %s" % processby)
-
 
 
 if __name__=="__main__":
