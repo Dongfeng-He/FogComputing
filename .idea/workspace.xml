@@ -41,8 +41,8 @@
       <file leaf-file-name="message.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/message.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="226" lean-forward="true" selection-start-line="15" selection-start-column="226" selection-end-line="15" selection-end-column="226" />
+            <state relative-caret-position="238">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -719,13 +719,6 @@
       <option name="presentableId" value="Default" />
       <updated>1513644852182</updated>
     </task>
-    <task id="LOCAL-00034" summary="stable version with AWS pem file">
-      <created>1525518328378</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1525518328378</updated>
-    </task>
     <task id="LOCAL-00035" summary="stable version with AWS pem file">
       <created>1525518621049</created>
       <option name="number" value="00035" />
@@ -1062,7 +1055,14 @@
       <option name="project" value="LOCAL" />
       <updated>1528436866817</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="measure more parameter">
+      <created>1528436952107</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1528436952107</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -1510,8 +1510,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/message.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="226" lean-forward="true" selection-start-line="15" selection-start-column="226" selection-end-line="15" selection-end-column="226" />
+        <state relative-caret-position="238">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
