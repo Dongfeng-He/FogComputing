@@ -52,9 +52,11 @@ class Client:
             else:
                 print(data)
                 data = data.decode("ascii")
+                print(data)
                 unpacked_data = unpack(data)
                 for data in unpacked_data:
                     message = json.loads(data)
+
                     time_requirement = float(message['time_requirement'])
                     execution_time = float(message['execution_time'])
                     responding_time = time.time() - float(message['sending_time'])
