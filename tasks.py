@@ -142,7 +142,7 @@ def light(task_message, enqueue_time):
     result['execution_time'] = execution_time
     result['task_type'] = 'light'
     result['offload_times'] = task_message['offload_times']
-    result['processby'] = task_message['processby']
+    result['process_by'] = task_message['process_by']
     return result
 
 @DeferrableTask
@@ -180,7 +180,7 @@ def medium(task_message, enqueue_time):
     result['execution_time'] = execution_time
     result['task_type'] = 'medium'
     result['offload_times'] = task_message['offload_times']
-    result['processby'] = task_message['processby']
+    result['process_by'] = task_message['process_by']
     return result
 
 @DeferrableTask
@@ -218,7 +218,7 @@ def heavy(task_message, enqueue_time):
     result['execution_time'] = execution_time
     result['task_type'] = 'heavy'
     result['offload_times'] = task_message['offload_times']
-    result['processby'] = task_message['processby']
+    result['process_by'] = task_message['process_by']
     return result
 
 

@@ -61,7 +61,7 @@ class Client:
                     responding_time = time.time() - float(message['sending_time'])
                     waiting_time = responding_time - execution_time
                     offloading_times = message['offload_times']
-                    processby = message['processby']
+                    process_by = message['process_by']
                     if waiting_time > time_requirement:
                         is_in_time = 0
                     else:
@@ -71,7 +71,7 @@ class Client:
                     print("In time or not: %d" % is_in_time)
                     print("responding_time (delay): %f" % responding_time)
                     print("offloading_times: %d" % offloading_times)
-                    print("processby: %s" % processby)
+                    print("process_by: %s" % process_by)
 
 
 
