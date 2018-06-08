@@ -136,6 +136,11 @@ def light(task_message, enqueue_time):
     r.set('light_task_num', int(light_task_num) - 1)
     print('Estimated execution time: %f' %  task_message['estimated_execution_time'])
     print('Actual execution time: %f' % execution_time)
+    result['time_requirement'] = task_message['time_requirement']
+    result['sending_time'] = task_message['sending_time']
+    result['distribution_time'] = task_message['distribution_time']
+    result['execution_time'] = execution_time
+    result['task_type'] = 'light'
     return result
 
 @DeferrableTask
@@ -167,6 +172,11 @@ def medium(task_message, enqueue_time):
     r.set('medium_task_num', int(medium_task_num) - 1)
     print('Estimated execution time: %f' % task_message['estimated_execution_time'])
     print('Actual execution time: %f' % execution_time)
+    result['time_requirement'] = task_message['time_requirement']
+    result['sending_time'] = task_message['sending_time']
+    result['distribution_time'] = task_message['distribution_time']
+    result['execution_time'] = execution_time
+    result['task_type'] = 'medium'
     return result
 
 @DeferrableTask
@@ -198,6 +208,11 @@ def heavy(task_message, enqueue_time):
     r.set('heavy_task_num', int(heavy_task_num) - 1)
     print('Estimated execution time: %f' % task_message['estimated_execution_time'])
     print('Actual execution time: %f' % execution_time)
+    result['time_requirement'] = task_message['time_requirement']
+    result['sending_time'] = task_message['sending_time']
+    result['distribution_time'] = task_message['distribution_time']
+    result['execution_time'] = execution_time
+    result['task_type'] = 'heavy'
     return result
 
 

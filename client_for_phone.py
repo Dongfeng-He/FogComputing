@@ -26,6 +26,7 @@ class Client:
         while True:
             task_message = self.fog_message
             task_message['task_id'] = self.fog_task_id
+            task_message['sending_time'] = time.time()
             self.fog_task_id += 1
             sending_message = bytes(json.dumps(task_message), "ascii")
             self.sock.send(sending_message)
@@ -52,4 +53,4 @@ class Client:
 
 
 if __name__=="__main__":
-    client = Client('192.168.1.4', 10000)
+    client = Client('192.168.1.7', 10000)

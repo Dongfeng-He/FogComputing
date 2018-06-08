@@ -125,6 +125,7 @@ class FogServerProtocol(protocol.Protocol):
             self.factory.next_task_id += 1
 
         operation = self.taskInspection(task_message)
+        task_message["distribution_time"] = time.time()
         if operation == "cloud":
             self.taskSendToCloud(task_message)
         elif operation == "fog":
@@ -306,3 +307,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+
+
+
+
