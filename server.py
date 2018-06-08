@@ -127,14 +127,14 @@ class FogServerProtocol(protocol.Protocol):
         operation = self.taskInspection(task_message)
         task_message["distribution_time"] = time.time()
         if operation == "cloud":
-            task_message['process_by'] = "cloud"
+            #task_message['process_by'] = "cloud"
             self.taskSendToCloud(task_message)
         elif operation == "fog":
-            task_message['process_by'] = "fog"
+            #task_message['process_by'] = "fog"
             self.taskOffloading(task_message)
         elif operation == "accept":
-            if int(task_message['offload_times']) == 0:
-                task_message['process_by'] = "local"
+            #if int(task_message['offload_times']) == 0:
+                #task_message['process_by'] = "local"
             self.taskProcessing(task_message)
 
     def resultHandler(self, result_message):
