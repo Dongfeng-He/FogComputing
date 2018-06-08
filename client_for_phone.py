@@ -23,6 +23,7 @@ class Client:
 
     def sendMessage(self):
         while True:
+
             task_message = self.fog_message
             task_message['task_id'] = self.fog_task_id
             task_message['sending_time'] = time.time()
@@ -30,8 +31,10 @@ class Client:
             sending_message = bytes(json.dumps(task_message), "ascii")
             self.sock.send(sending_message)
 
+
             task_message = self.cloud_message
             task_message['task_id'] = self.cloud_task_id
+            task_message['sending_time'] = time.time()
             self.cloud_task_id += 1
             sending_message = bytes(json.dumps(task_message), "ascii")
             self.sock.send(sending_message)
@@ -44,17 +47,17 @@ class Client:
         iThread.daemon = True
         iThread.start()
         while True:
+
             data = self.sock.recv(1024)
+            print(data)
             if not data:
                 break;
             else:
-                print(data)
                 data = data.decode("ascii")
-                print(data)
                 unpacked_data = unpack(data)
                 for data in unpacked_data:
                     message = json.loads(data)
-                    if message['message_type'] == 'result':
+                    if message['message_type'] == 'result' and int(message["sending_time"]) != 0:
                         time_requirement = float(message['time_requirement'])
                         execution_time = float(message['execution_time'])
                         responding_time = time.time() - float(message['sending_time'])
@@ -71,6 +74,7 @@ class Client:
                         print("responding_time (delay): %f" % responding_time)
                         print("offloading_times: %d" % offloading_times)
                         print("process_by: %s" % process_by)
+                        print("")
 
 
 
