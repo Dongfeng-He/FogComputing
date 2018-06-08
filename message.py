@@ -11,7 +11,7 @@ class TaskMessage:
 
 task_message = {'message_type':'task', 'task_id':None, 'task_type': None, 'task_name': None, 'content': None, \
                 'cloud_processing': False, 'offload_times': 0, 'offloading_fog':[], 'max_offload': 4, 'time_requirement': 10000,\
-                'estimated_queuing_time': 0, 'queuing_time': 0, 'estimated_execution_time': 0, 'execution_time': 0, 'distribution_time':0, 'sending_time':0, 'process_by':None}
+                'estimated_queuing_time': 0, 'queuing_time': 0, 'estimated_execution_time': 0, 'execution_time': 0, 'distribution_time':0, 'sending_time':0, 'process_by': 'f'}
 
 result_message = {'message_type':'result', 'task_id':None, 'content':None, 'time_requirement': None, 'sending_time':None, 'distribution_time':None, 'execution_time':None, 'task_type':None, 'offload_times':None, 'process_by': 'f'}
 
