@@ -20,8 +20,8 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
-              <caret line="127" column="51" lean-forward="true" selection-start-line="127" selection-start-column="51" selection-end-line="127" selection-end-column="51" />
+            <state relative-caret-position="539">
+              <caret line="133" column="45" lean-forward="true" selection-start-line="133" selection-start-column="45" selection-end-line="133" selection-end-column="45" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -32,8 +32,8 @@
       <file leaf-file-name="tasks.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tasks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="100" column="35" lean-forward="true" selection-start-line="100" selection-start-column="35" selection-end-line="100" selection-end-column="35" />
+            <state relative-caret-position="-4">
+              <caret line="55" column="23" lean-forward="false" selection-start-line="55" selection-start-column="23" selection-end-line="55" selection-end-column="23" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -44,8 +44,8 @@
       <file leaf-file-name="message.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/message.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="15" column="163" lean-forward="false" selection-start-line="15" selection-start-column="149" selection-end-line="15" selection-end-column="163" />
+            <state relative-caret-position="233">
+              <caret line="15" column="92" lean-forward="false" selection-start-line="15" selection-start-column="76" selection-end-line="15" selection-end-column="92" />
               <folding />
             </state>
           </provider>
@@ -74,8 +74,8 @@
       <file leaf-file-name="client_for_phone.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client_for_phone.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="470">
-              <caret line="50" column="17" lean-forward="true" selection-start-line="50" selection-start-column="17" selection-end-line="50" selection-end-column="17" />
+            <state relative-caret-position="95">
+              <caret line="42" column="34" lean-forward="true" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -178,10 +178,10 @@
         <option value="$PROJECT_DIR$/cloud_server.py" />
         <option value="$PROJECT_DIR$/cloud_server_simplified.py" />
         <option value="$PROJECT_DIR$/message(stable).py" />
-        <option value="$PROJECT_DIR$/message.py" />
-        <option value="$PROJECT_DIR$/client_for_phone.py" />
         <option value="$PROJECT_DIR$/server.py" />
+        <option value="$PROJECT_DIR$/message.py" />
         <option value="$PROJECT_DIR$/tasks.py" />
+        <option value="$PROJECT_DIR$/client_for_phone.py" />
       </list>
     </option>
   </component>
@@ -722,13 +722,6 @@
       <option name="presentableId" value="Default" />
       <updated>1513644852182</updated>
     </task>
-    <task id="LOCAL-00026" summary="endpoint fogDiscovery --&gt; multicastClient">
-      <created>1525357143667</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1525357143667</updated>
-    </task>
     <task id="LOCAL-00027" summary="endpoint fogDiscovery --&gt; multicastClient`">
       <created>1525357420950</created>
       <option name="number" value="00027" />
@@ -1065,7 +1058,14 @@
       <option name="project" value="LOCAL" />
       <updated>1526040809101</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="delay measure">
+      <created>1528433632708</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1528433632708</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -1080,7 +1080,7 @@
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13661636" sideWeight="0.5" order="2" side_tool="true" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13661636" sideWeight="0.5" order="2" side_tool="true" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.49722" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3465909" sideWeight="0.5210484" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2940341" sideWeight="0.47895154" order="2" side_tool="false" content_ui="tabs" />
@@ -1165,7 +1165,8 @@
     <MESSAGE value="add stable client for iphone" />
     <MESSAGE value="stable version after adding delay" />
     <MESSAGE value="maybe solve the offloading problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="maybe solve the offloading problem" />
+    <MESSAGE value="delay measure" />
+    <option name="LAST_COMMIT_MESSAGE" value="delay measure" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1423,14 +1424,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cloud_server_simplified.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="436">
@@ -1481,36 +1474,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="127" column="51" lean-forward="true" selection-start-line="127" selection-start-column="51" selection-end-line="127" selection-end-column="51" />
+        <state relative-caret-position="539">
+          <caret line="133" column="45" lean-forward="true" selection-start-line="133" selection-start-column="45" selection-end-line="133" selection-end-column="45" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/message.py">
+    <entry file="file://$PROJECT_DIR$/functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="15" column="163" lean-forward="false" selection-start-line="15" selection-start-column="149" selection-end-line="15" selection-end-column="163" />
+        <state relative-caret-position="442">
+          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tasks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="100" column="35" lean-forward="true" selection-start-line="100" selection-start-column="35" selection-end-line="100" selection-end-column="35" />
+        <state relative-caret-position="-4">
+          <caret line="55" column="23" lean-forward="false" selection-start-line="55" selection-start-column="23" selection-end-line="55" selection-end-column="23" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/message.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="15" column="92" lean-forward="false" selection-start-line="15" selection-start-column="76" selection-end-line="15" selection-end-column="92" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client_for_phone.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="50" column="17" lean-forward="true" selection-start-line="50" selection-start-column="17" selection-end-line="50" selection-end-column="17" />
+        <state relative-caret-position="95">
+          <caret line="42" column="34" lean-forward="true" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
