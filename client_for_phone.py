@@ -3,16 +3,14 @@ import json
 import threading
 import time
 from functions import unpack
+from message import task_message
 
 class Client:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     fog_task_id = 1
     cloud_task_id = 10000
-    task_message = {'message_type': 'task', 'task_id': None, 'task_type': None, 'task_name': None, 'content': None, \
-                    'cloud_processing': False, 'offload_times': 0, 'offloading_fog': [], 'max_offload': 4,
-                    'time_requirement': 10000, \
-                    'estimated_queuing_time': 0, 'queuing_time': 0, 'estimated_execution_time': 0, 'execution_time': 0}
-    original_task_message = task_message
+    task_message1 = task_message
+    original_task_message = task_message1
     original_task_message['task_id'] = 1
     original_task_message['task_type'] = 'medium'
     original_task_message['task_name'] = "medium"
@@ -56,22 +54,23 @@ class Client:
                 unpacked_data = unpack(data)
                 for data in unpacked_data:
                     message = json.loads(data)
-                    time_requirement = float(message['time_requirement'])
-                    execution_time = float(message['execution_time'])
-                    responding_time = time.time() - float(message['sending_time'])
-                    waiting_time = responding_time - execution_time
-                    offloading_times = message['offload_times']
-                    process_by = message['process_by']
-                    if waiting_time > time_requirement:
-                        is_in_time = 0
-                    else:
-                        is_in_time = 1
-                    print("Required_time: %f" % time_requirement)
-                    print("Waiting_time: %f" % waiting_time)
-                    print("In time or not: %d" % is_in_time)
-                    print("responding_time (delay): %f" % responding_time)
-                    print("offloading_times: %d" % offloading_times)
-                    print("process_by: %s" % process_by)
+                    if message['message_type'] == 'result':
+                        time_requirement = float(message['time_requirement'])
+                        execution_time = float(message['execution_time'])
+                        responding_time = time.time() - float(message['sending_time'])
+                        waiting_time = responding_time - execution_time
+                        offloading_times = message['offload_times']
+                        process_by = message['process_by']
+                        if waiting_time > time_requirement:
+                            is_in_time = 0
+                        else:
+                            is_in_time = 1
+                        print("Required_time: %f" % time_requirement)
+                        print("Waiting_time: %f" % waiting_time)
+                        print("In time or not: %d" % is_in_time)
+                        print("responding_time (delay): %f" % responding_time)
+                        print("offloading_times: %d" % offloading_times)
+                        print("process_by: %s" % process_by)
 
 
 

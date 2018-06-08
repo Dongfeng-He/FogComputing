@@ -110,7 +110,6 @@ app = Celery('tasks', broker = broker, backend = backend)
 @DeferrableTask
 @app.task
 def light(task_message, enqueue_time):
-    print(task_message)
     start_time = time.time()
     queuing_time = start_time - enqueue_time
     print("Number of light-weight task in queue: %s" % r.get('light_task_num'))
@@ -149,7 +148,6 @@ def light(task_message, enqueue_time):
 @DeferrableTask
 @app.task
 def medium(task_message, enqueue_time):
-    print(task_message)
     start_time = time.time()
     queuing_time = start_time - enqueue_time
     print("Number of medium-weight task in queue: %s" % r.get('medium_task_num'))
@@ -188,7 +186,6 @@ def medium(task_message, enqueue_time):
 @DeferrableTask
 @app.task
 def heavy(task_message, enqueue_time):
-    print(task_message)
     start_time = time.time()
     queuing_time = start_time - enqueue_time
     print("Number of heavy-weight task in queue: %s" % r.get('heavy_task_num'))
