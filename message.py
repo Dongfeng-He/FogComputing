@@ -9,7 +9,7 @@ class TaskMessage:
         self.time_requirement = time_requirement
 
 
-task_message = {'message_type':'task', 'task_id':None, 'task_type': None, 'task_name': None, 'content': None, \
+task_message = {'message_type':'task', 'task_id':0, 'task_type': None, 'task_name': None, 'content': None, \
                 'cloud_processing': False, 'offload_times': 0, 'offloading_fog':[], 'max_offload': 4, 'time_requirement': 10000,\
                 'estimated_queuing_time': 0, 'queuing_time': 0, 'estimated_execution_time': 0, 'execution_time': 0, 'distribution_time':0, 'sending_time':0, 'process_by': 'f'}
 
