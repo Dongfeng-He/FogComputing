@@ -70,8 +70,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="60" column="14" lean-forward="true" selection-start-line="60" selection-start-column="14" selection-end-line="60" selection-end-column="14" />
+            <state relative-caret-position="493">
+              <caret line="29" column="18" lean-forward="true" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -696,34 +696,6 @@
       <option name="presentableId" value="Default" />
       <updated>1513644852182</updated>
     </task>
-    <task id="LOCAL-00040" summary="add cloud_server, add sendtocloud()">
-      <created>1525587118949</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1525587118949</updated>
-    </task>
-    <task id="LOCAL-00041" summary="add cloud_server, add sendtocloud()">
-      <created>1525587665735</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1525587665735</updated>
-    </task>
-    <task id="LOCAL-00042" summary="add cloud_server, add sendtocloud()">
-      <created>1525601937687</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1525601937687</updated>
-    </task>
-    <task id="LOCAL-00043" summary="add cloud_server, add sendtocloud()">
-      <created>1525603700055</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1525603700055</updated>
-    </task>
     <task id="LOCAL-00044" summary="add cloud_server, add sendtocloud()">
       <created>1525603764866</created>
       <option name="number" value="00044" />
@@ -1039,7 +1011,35 @@
       <option name="project" value="LOCAL" />
       <updated>1529590821826</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="readme">
+      <created>1529590950915</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1529590950915</updated>
+    </task>
+    <task id="LOCAL-00090" summary="readme">
+      <created>1529591013708</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1529591013708</updated>
+    </task>
+    <task id="LOCAL-00091" summary="readme">
+      <created>1529591161796</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1529591161796</updated>
+    </task>
+    <task id="LOCAL-00092" summary="readme">
+      <created>1529591266233</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1529591266233</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -1451,8 +1451,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="60" column="14" lean-forward="true" selection-start-line="60" selection-start-column="14" selection-end-line="60" selection-end-column="14" />
+        <state relative-caret-position="493">
+          <caret line="29" column="18" lean-forward="true" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
         </state>
       </provider>
     </entry>
