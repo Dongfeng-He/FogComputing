@@ -11,7 +11,7 @@ The basic requirements for this project include Ubuntu operating system for fog 
 
 #### 2.1 Deployment of fog node
 The first step is the preparation of the Ubuntu OS for the fog node application. It is recommended to use VirtualBox to create a virtual machine with Ubuntu, because if you have successfully configure one fog node in a virtual machine, you can simply duplicate the virtual machine to create many virtual fog nodes quickly in one computer. If you use VirtualBox, it is important to set the network adapter of the virtual machines to `bridge mode` which can assign different IP addresses to different virtual machines.
-The necessary softwares and libraries required for fog node include Git, Pip3, Redis, Twisted and Celery. You can use terminal to finish the installation.
+The necessary software and libraries required for fog node include Git, Pip3, Redis, Twisted and Celery. You can use terminal to finish the installation.
 Install git.
 ```javascript
 sudo apt-get update
@@ -55,7 +55,7 @@ Use and public IP and public DNS of your AWS EC2 instance and the PEM file to co
 ssh -i my-key-pair.pem user_name@public_dns_name
 ```
 Now, your terminal should have connected to the cloud instance. Let's use this terminal to configure the environment of cloud server.
-The configuration of cloud environment is similar to the configuration of fog environment.  You should install Git, Pip3, Redis, Redis Python package, Twisted and Celery in the instance.
+The configuration of cloud environment is similar to the configuration of fog environment. You should install Git, Pip3, Redis, Redis Python package, Twisted and Celery in the instance.
 ```javascript
 sudo apt-get update
 sudo apt-get install git
