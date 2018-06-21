@@ -1,4 +1,4 @@
-####1. Brief Introduction
+#### 1. Brief Introduction
 This is a fog computing application developed in Python using Twisted networking framework and Celery task queue.
 As the Internet of Things technology develops, more and more smart devices are connected to the core network, generating a large amount of data every day. Using cloud computing to deal with this kind of data has led to two major issues: network congestion and high latency.
 In order to solve this problem, a new computing model was proposed, that is, fog computing. The main idea of fog computing is to deploy some servers near the users to provide service with low latency. These servers are also called fog nodes.
