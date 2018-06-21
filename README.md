@@ -9,7 +9,7 @@ The above figure shows the basic architecture of fog computing. This project can
 ### 2. Deployment and Installation
 The basic requirements for this project include Ubuntu operating system for fog nodes, AWS EC2 instance with Ubuntu operating system for cloud server and a smart device that supports Python3 script execution (e.g. an iPhone with Python3 IDE).
 
-#### Deployment of fog node
+#### 2.1 Deployment of fog node
 The first step is the preparation of the Ubuntu OS for the fog node application. It is recommended to use VirtualBox to create a virtual machine with Ubuntu, because if you have successfully configure one fog node in a virtual machine, you can simply duplicate the virtual machine to create many virtual fog nodes quickly in one computer. If you use VirtualBox, it is important to set the network adapter of the virtual machines to `bridge mode` which can assign different IP addresses to different virtual machines.
 The necessary softwares and libraries required for fog node include Git, Pip3, Redis, Twisted and Celery. You can use terminal to finish the installation.
 Install git.
@@ -38,7 +38,7 @@ Install Celery task queue.
 pip3 install Celery
 ```
 
-#### Deployment of Cloud server
+#### 2.2 Deployment of Cloud server
 First step is to launch an AWS EC2 instance with Ubuntu OS.
 Instruction to launch an AWS EC2 instance: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html?icmpid=docs_ec2_console
 After launching an AWS EC2 instance, remember to record the public IP address and public DNS of the instance, which will be used to login your instance remotely in terminal. Also,  a PEM file will be downloaded, please store this file safely because it is the key to login your instance.
@@ -69,7 +69,7 @@ pip3 install Celery
 ### 3. Start Service
 Execute the fog node application, cloud application and user application to make it work.
 
-#### Start Fog Node Application
+#### 3.1 Start Fog Node Application
 The fog nodes running in the same LAN can collaborate with each other.
 Clone this project to the fog node virtual machine.
 ```javascript
@@ -89,7 +89,7 @@ Open a new terminal window, launch the fog node application. The fog node applic
 cd FogComputing
 python3 server.py
 ```
-#### Start Cloud Application
+#### 3.2 Start Cloud Application
 If you use terminal to connect to the cloud server. You should open three terminal windows. All terminals should connect to the cloud server before running the following commands.
 Clone this project.
 ```javascript
@@ -109,7 +109,7 @@ Use a new terminal window (connected to the cloud), launch the cloud application
 cd FogComputing
 python3 cloud_server_simplified.py
 ```
-#### Start User Application
+#### 3.3 Start User Application
 You can use a computer to execute the user application. Make sure that the computer you use to run the user application is within the same LAN as the fog nodes. The user application is `client_for_phone.py`. It is important to modify the IP in the following code of `client_for_phone.py` to the actual IP address of one of your fog node before you execute `client_for_phone.py`.
 ```javascript
 client = Client('192.168.1.9', 10000)
