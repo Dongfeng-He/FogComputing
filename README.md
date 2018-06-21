@@ -4,6 +4,7 @@ As the Internet of Things technology develops, more and more smart devices are c
 In order to solve this problem, a new computing model was proposed, that is, fog computing. The main idea of fog computing is to deploy some servers near the users to provide service with low latency. These servers are also called fog nodes.
 When a fog node receives a lightweight task, it can process the task locally. When a fog node receives a middleweight task, it can collaborate with neighbour fog nodes to process the task. When a fog node receives a heavyweight task, it can upload the task to the cloud.
 <div align=center><img width="350" height="350" src="https://cn.sharelatex.com/project/5b13e947e0ff0428a740b770/file/5b1b8c5c5130711b7481e85c"/></div>
+![](https://cn.sharelatex.com/project/5b13e947e0ff0428a740b770/file/5b1b8c5c5130711b7481e85c)
 The above figure shows the basic architecture of fog computing. This project can be divided into three parts: fog node application, cloud application and user application. User application can send tasks to fog nodes with different speeds, fog node application can process, offload or upload the tasks, cloud application can process the task and send the results back to fog nodes.
 
 ### 2. Deployment and Installation
