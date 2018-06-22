@@ -42,7 +42,7 @@ pip3 install Celery
 First step is to launch an AWS EC2 instance with Ubuntu OS.  
 Instruction to launch an AWS EC2 instance: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html?icmpid=docs_ec2_console  
 After launching an AWS EC2 instance, remember to record the public IP address and public DNS of the instance, which will be used to login your instance remotely in terminal. Also,  a PEM file will be downloaded, please store this file safely because it is the key to login your instance.  
-Set the directory to the folder where you store your PEM file.
+Set the directory to the folder where you store your PEM file. (e.g. Desktop is the directory where you store your pem file)
 ```javascript
 cd desktop
 ```
@@ -67,9 +67,36 @@ pip3 install Celery
 ```
 
 ### 3. Start Service
-Execute the fog node application, cloud application and user application to make it work.
+Execute the cloud application, fog node application and user application to make it work. Remember that cloud application should be started first, then fog node application, finally user application.
 
-#### 3.1 Start Fog Node Application
+#### 3.1 Start Cloud Application
+Cloud application should be started first, so that fog nodes can connect to cloud server when they are started.  
+If you use terminal to connect to the cloud server. You should open three terminal windows. All terminals should connect to the cloud server before running the following commands.  
+Connecting to cloud server for each terminal windows.
+```javascript
+cd path_of_your_key
+ssh -i my-key-pair.pem user_name@public_dns_name
+```
+Clone this project.
+```javascript
+git clone https://github.com/Dongfeng-He/FogComputing.git
+```
+Use a new terminal window (connected to the cloud), launch Redis database.
+```javascript
+redis-server
+```
+Use a new terminal window (connected to the cloud), launch Celery task queue.
+```javascript
+cd FogComputing
+celery -A tasks worker --loglevel=info --concurrency=1
+```
+Use a new terminal window (connected to the cloud), launch the cloud application. The cloud application is `cloud_server_simplified.py.py`.
+```javascript
+cd FogComputing
+python3 cloud_server_simplified.py
+```
+
+#### 3.2 Start Fog Node Application
 The fog nodes running in the same LAN can collaborate with each other.  
 Clone this project to the fog node virtual machine.
 ```javascript
@@ -89,26 +116,7 @@ Open a new terminal window, launch the fog node application. The fog node applic
 cd FogComputing
 python3 server.py
 ```
-#### 3.2 Start Cloud Application
-If you use terminal to connect to the cloud server. You should open three terminal windows. All terminals should connect to the cloud server before running the following commands.
-Clone this project.
-```javascript
-git clone https://github.com/Dongfeng-He/FogComputing.git
-```
-Launch Redis database.
-```javascript
-redis-server
-```
-Use a new terminal window (connected to the cloud), launch Celery task queue.
-```javascript
-cd FogComputing
-celery -A tasks worker --loglevel=info --concurrency=1
-```
-Use a new terminal window (connected to the cloud), launch the cloud application. The cloud application is `cloud_server_simplified.py.py`.
-```javascript
-cd FogComputing
-python3 cloud_server_simplified.py
-```
+
 #### 3.3 Start User Application
 You can use a computer to execute the user application. Make sure that the computer you use to run the user application is within the same LAN as the fog nodes. The user application is `client_for_phone.py`. It is important to modify the IP in the following code of `client_for_phone.py` to the actual IP address of one of your fog node before you execute `client_for_phone.py`.
 ```javascript
