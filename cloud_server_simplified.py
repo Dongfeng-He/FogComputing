@@ -6,6 +6,7 @@ import time
 from functions import unpack
 
 
+# Cloud server is a simplified fog server. Only preserve the task processing function
 class FogServerProtocol(protocol.Protocol):
     def dataReceived(self, data):
         data = data.decode("ascii")
@@ -73,7 +74,6 @@ def main():
     fog_factory = FogServerFactory(r)
     reactor.listenTCP(tcp_port, fog_factory)
     reactor.run()
-
 
 
 if __name__ == "__main__":

@@ -4,28 +4,13 @@ import redis
 from defer import DeferrableTask
 from message import result_message
 
-
-
-'''
-def update_queuing_time(func):
-    alpha = 0.1
-    def wrapper(*args):
-        start_time = time.time()
-        func(*args)
-        end_time = time.time()
-        processing_time = end_time - start_time
-        queuing_time = float(r.get('queuing_time'))
-        new_queuing_time = queuing_time * (1 - alpha) + processing_time * alpha
-        r.set('queuing_time', new_queuing_time)
-    return wrapper
-'''
-
+# Calculate the queuing time for for a take type and store it in Redis
 def update_queuing_time(start_time, task_type):
     end_time = time.time()
     new_queuing_time = end_time - start_time
-    #print(new_queuing_time)
     r.set(task_type, new_queuing_time)
 
+# Set the estimated execution time of all task types to 0 in Redis
 def resetTaskTime():
     r.set('last_light_time', 0)
     r.set('2nd_last_light_time', 0)
@@ -37,11 +22,13 @@ def resetTaskTime():
     r.set('2nd_last_heavy_time', 0)
     r.set('estimated_heavy_time', 0)
 
+# Set the number of tasks of all task types to 0 in Redis
 def resetQueueState():
     r.set('light_task_num', 0)
     r.set('medium_task_num', 0)
     r.set('heavy_task_num', 0)
 
+# Get the estimated execution time of all task types
 def getAllTaskTime():
     all_task_time = {}
     all_task_time['estimated_light_time'] = float(r.get('estimated_light_time'))
@@ -49,6 +36,7 @@ def getAllTaskTime():
     all_task_time['estimated_heavy_time'] = float(r.get('estimated_heavy_time'))
     return all_task_time
 
+# Get the number of tasks of all task types in the task queue
 def taskInQueue():
     task_num_in_queue = {}
     light_task_num = r.get('light_task_num')
@@ -73,6 +61,7 @@ def taskInQueue():
     task_num_in_queue['total_task_num'] = total_task_num
     return task_num_in_queue
 
+# Calculate the estimated waiting for the incoming task based on the queue status
 def getWaitingTime():
     task_num = taskInQueue()
     light_task_num = task_num['light_task_num']
@@ -85,6 +74,7 @@ def getWaitingTime():
     waiting_time = light_task_num * light_task_time + medium_task_num * medium_task_time + heavy_task_num * heavy_task_time
     return waiting_time
 
+# Get the estimated execution time of all task types
 def getExecutionTime(task_type):
     if task_type == 'light':
         execution_time = float(r.get('estimated_light_time'))
@@ -96,17 +86,16 @@ def getExecutionTime(task_type):
         execution_time = 100000
     return execution_time
 
+# Connect to Redis
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
-
 broker = 'redis://127.0.0.1:6379/5'
 backend = 'redis://127.0.0.1:6379/6'
 
+# Connect to Celery
 app = Celery('tasks', broker = broker, backend = backend)
 
-#all_task_name = ["light"]
-
-
-
+# This is a template for lightweight task
+# Customize your own task below "Task Start" comment
 @DeferrableTask
 @app.task
 def light(task_message, enqueue_time):
@@ -118,7 +107,10 @@ def light(task_message, enqueue_time):
     task_content = task_message['content']
     result = result_message
     result["task_id"] = task_message['task_id']
+    # -------- Task Start --------
+    # e.g This is a lightweight power calculation
     result["content"] = pow(3523523523,3423) % 4
+    # -------- Task End --------
     light_task_num = r.get('light_task_num')
     update_queuing_time(enqueue_time, 'light')
     execution_time = time.time() - start_time
@@ -145,6 +137,8 @@ def light(task_message, enqueue_time):
     result['process_by'] = task_message['process_by']
     return result
 
+# This is a template for middleweight task
+# Customize your own task below "Task Start" comment
 @DeferrableTask
 @app.task
 def medium(task_message, enqueue_time):
@@ -156,7 +150,10 @@ def medium(task_message, enqueue_time):
     task_content = task_message['content']
     result = result_message
     result["task_id"] = task_message['task_id']
+    # -------- Task Start --------
+    # e.g This is a middleweight power calculation
     result["content"] = pow(3523523523,342323) % 4
+    # -------- Task End --------
     medium_task_num = r.get('medium_task_num')
     execution_time = time.time() - start_time
     update_queuing_time(enqueue_time, 'medium')
@@ -183,6 +180,8 @@ def medium(task_message, enqueue_time):
     result['process_by'] = task_message['process_by']
     return result
 
+# This is a template for heavyweight task
+# Customize your own task below "Task Start" comment
 @DeferrableTask
 @app.task
 def heavy(task_message, enqueue_time):
@@ -194,7 +193,10 @@ def heavy(task_message, enqueue_time):
     task_content = task_message['content']
     result = result_message
     result["task_id"] = task_message['task_id']
+    # -------- Task Start --------
+    # e.g This is a heavyweight power calculation
     result["content"] = pow(3523523523,442323) % 4
+    # -------- Task End --------
     heavy_task_num = r.get('heavy_task_num')
     execution_time = time.time() - start_time
     update_queuing_time(enqueue_time, 'heavy')

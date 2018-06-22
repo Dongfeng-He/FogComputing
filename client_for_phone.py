@@ -1,10 +1,10 @@
 import socket
 import json
-import threading
 import time
 from functions import unpack
 from message import task_message
 import _thread
+
 
 class Client:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,26 +26,25 @@ class Client:
                    "middle_num": 0, "middle_delay": 0, "middle_in_time": 0, "middle_avg_delay": 0,
                    "middle_in_time_rate": 0, \
                    "heavy_num": 0, "heavy_delay": 0, "heavy_in_time": 0, "heavy_avg_delay": 0, "heavy_in_time_rate": 0}
-
+    # Specify the maximum allowed offloading time for each task
     max_offloading_time = 4
-
+    # Specify the task rate for lighweight task
     light_task_per_min = 200
     if light_task_per_min != 0:
         light_delay = 60 / light_task_per_min
-    light_time_requirement = 0.2
-
+    light_time_requirement = 0.2    # Specify the time requirement for lighweight task
+    # Specify the task rate for middleweight task
     middle_task_per_min = 40
     if middle_task_per_min != 0:
         middle_delay = 60 / middle_task_per_min
-    middle_time_requirement = 2
-
+    middle_time_requirement = 2     # Specify the time requirement for middleweight task
+    # Specify the task rate for heavyweight task
     heavy_task_per_min = 0
     if heavy_task_per_min != 0:
         heavy_delay = 60 / heavy_task_per_min
-    heavy_time_requirement = 5
+    heavy_time_requirement = 5      # Specify the time requirement for heavyweight task
 
-
-
+    # Send lighweight task
     def sendMessage(self):
         while True:
             time.sleep(self.light_delay)
@@ -64,6 +63,7 @@ class Client:
             sending_message = bytes(json.dumps(task_message), "ascii")
             self.sock.send(sending_message)
 
+    # Send middleweight task
     def sendMessage2(self):
         while True:
             time.sleep(self.middle_delay)
@@ -82,7 +82,7 @@ class Client:
             sending_message = bytes(json.dumps(task_message), "ascii")
             self.sock.send(sending_message)
 
-
+    # Send heavyweight task
     def sendMessage3(self):
         while True:
             time.sleep(self.heavy_delay)
@@ -101,21 +101,9 @@ class Client:
             sending_message = bytes(json.dumps(task_message), "ascii")
             self.sock.send(sending_message)
 
-
-
+    # Send task
     def __init__(self, address, port):
         self.sock.connect((address, port))
-
-        """"
-        iThread = threading.Thread(target = self.sendMessage)
-        iThread.daemon = True
-        iThread.start()
-
-        iThread1 = threading.Thread(target=self.sendMessage)
-        iThread1.daemon = True
-        iThread1.start()
-        """
-
         try:
             if self.light_task_per_min > 0:
                 _thread.start_new_thread(self.sendMessage, ())
@@ -124,16 +112,13 @@ class Client:
             if self.heavy_task_per_min > 0:
                 _thread.start_new_thread(self.sendMessage3, ())
         except:
-            print("Error: 无法启动线程")
-
+            print("Error: fail to start thread")
         while True:
-
             data = self.sock.recv(1024)
             print(data)
             if not data:
-                break;
+                break
             else:
-
                 data = data.decode("ascii")
                 print(data)
                 unpacked_data = unpack(data)
@@ -157,7 +142,6 @@ class Client:
                         print("responding_time (delay): %f" % responding_time)
                         print("offloading_times: %d" % offloading_times)
                         print("process_by: %s" % process_by)
-
                         if task_type == "light":
                             self.performance["light_num"] += 1
                             self.performance["light_delay"] += responding_time
@@ -187,11 +171,6 @@ class Client:
                         print("")
 
 
-
-
-
-
-
-
 if __name__=="__main__":
+    # You need to modify the IP to the actual IP of one of your running fog node
     client = Client('192.168.1.9', 10000)
